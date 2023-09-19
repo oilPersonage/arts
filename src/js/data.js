@@ -11,19 +11,19 @@ export const data = [
 		img: img1,
 		downloadCount: 0,
 	},
-	// {
-	// 	tags: 'lirules, шпиц, бали, bali, гора, пара',
-	// 	img: img2,
-	// 	downloadCount: 0,
-	// },
-	// {
-	// 	tags: 'lirules, шпиц, бали, bali, гора, пара',
-	// 	img: img3,
-	// 	downloadCount: 0,
-	// },
-	// {
-	// 	tags: 'lirules, шпиц, бали, bali, гора, пара',
-	// 	img: img4,
-	// 	downloadCount: 0,
-	// },
+	{
+		tags: 'lirules, шпиц, бали, bali, гора, пара',
+		img: img2,
+		downloadCount: 0,
+	},
+	{
+		tags: 'lirules, шпиц, бали, bali, гора, пара',
+		img: img3,
+		downloadCount: 0,
+	},
+	{
+		tags: 'lirules, шпиц, бали, bali, гора, пара',
+		img: img4,
+		downloadCount: 0,
+	},
 ]

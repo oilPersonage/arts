@@ -13,6 +13,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
+    "@use-gesture/vanilla": "^10.2.27",
     "animejs": "^3.2.1",
     "dat.gui": "^0.7.9",
     "photoswipe": "^5.4.0",
