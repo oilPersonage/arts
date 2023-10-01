@@ -1,0 +1,219 @@
+@font-face {
+    font-family: 'Attentica 4F';
+    src: local('Attentica 4F UltraLight'), url('/arts/assets/attentica4fultralight-96d4ae77.woff2') format('woff2'), url('/arts/assets/attentica4fultralight-407b036f.woff') format('woff'), url('/arts/assets/attentica4fultralight-97bd0702.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Fira Sans Heavy';
+    src: local('Fira Sans Ultra Italic'), local('FiraSans-UltraItalic'), url('/arts/assets/Firasansultraitalic-3f9dc708.woff2') format('woff2'), url('/arts/assets/Firasansultraitalic-afbbc610.woff') format('woff'), url('/arts/assets/Firasansultraitalic-e66782f6.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+@font-face {
+    font-family: 'Fira Sans Heavy';
+    src: local('Fira Sans Ultra'), local('FiraSans-Ultra'), url('/arts/assets/Firasansultra-d80e46e2.woff2') format('woff2'), url('/arts/assets/Firasansultra-733bdb36.woff') format('woff'), url('/arts/assets/Firasansultra-4c46183a.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Intro';
+    src: local('Intro'), url('/arts/assets/intro-d17d9d89.woff2') format('woff2'), url('/arts/assets/intro-3d678292.woff') format('woff'), url('/arts/assets/intro-efc06cb6.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+:root {
+  font-family: "Montserrat", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+* {
+  cursor: none;
+  box-sizing: border-box;
+}
+body {
+  background: #282428;
+}
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 100%;
+  min-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
+}
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  text-align: center;
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 60px 0 0;
+  color: white;
+}
+p {
+  color: white;
+  font-family: Montserrat;
+  font-size: 20px;
+  max-width: 80vh;
+  margin: 0 auto;
+  text-align: center;
+}
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+#gui {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  z-index: 3;
+}
+#container {
+  max-width: 100vw;
+  position: absolute;
+  z-index: 1;
+}
+.heading {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+.heading__description {
+  font-size: 16px;
+  max-width: 600px;
+}
+.heading__description span {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #f8b300;
+}
+.heading.hide {
+  opacity: 0;
+  z-index: 0;
+}
+.works {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: 80vw;
+  margin: 0 auto;
+  padding-bottom: 100px;
+}
+.works__column {
+  flex: 25%;
+  max-width: calc(25% - 16px);
+  padding: 8px 8px;
+}
+.works__item {
+  margin-bottom: 16px;
+  vertical-align: middle;
+}
+.description {
+  position: absolute;
+  bottom: 32px;
+  z-index: 2;
+  color: white;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 1rem;
+  width: 100%;
+  text-align: center;
+}
+.cursor, .cursorDot {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.4);
+}
+.cursorDot {
+  border: none;
+  height: 8px;
+  width: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cursorDot span {
+  margin-top: 24px;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 100;
+  opacity: 0;
+}
+.cursorDot.isHovered span {
+  opacity: 1;
+}
+/* Responsive layout - makes a two column-layout instead of four columns */
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .heading {
+    padding: 0 1rem;
+  }
+  .heading h1 {
+    font-size: 1.4rem;
+    margin-right: 2rem;
+    padding-top: 2rem;
+  }
+  .heading__description {
+    font-size: 0.9rem;
+  }
+  .description {
+    font-size: 0.9rem;
+    bottom: 72px;
+  }
+}
