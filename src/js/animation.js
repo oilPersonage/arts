@@ -9,6 +9,7 @@ const cursorDot = document.querySelector('.cursorDot')
 
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
+import {log} from "three/nodes";
 
 const CURSOR_SIZE = 64;
 const CURSOR_OFFSET = CURSOR_SIZE / 2;
@@ -317,11 +318,8 @@ container.addEventListener('touchstart', ({touches}) => {
 	touchStart.y = sliderPosition + event.pageY / width;
 	touchStart.nativeX = event.clientX;
 	touchStart.nativeY = event.clientY;
+	touchStart.prevX = event.clientX / width;
 	touchStart.sliderInitPosition = sliderPosition;
-})
-
-container.addEventListener('touchend', ({touches}) => {
-	// TOUCH_FUNCTION_CALLS = 0;
 })
 
 function setTouchSpeed(event) {
@@ -329,14 +327,18 @@ function setTouchSpeed(event) {
 	let diffX = Math.abs(Math.abs(touchStart.prevX) - Math.abs(normX));
 	diffX = clamp(diffX, -1, 1) * 15;
 
-	const dx = touchStart.x < touchStart.sliderInitPosition + normX ? -1 : 1;
+	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
 	const next = 100 * dx * SCROLL_FORCE * diffX || 0;
+
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 
 	touchStart.prevX = event.clientX / width;
 }
 
-container.addEventListener('touchmove', ({touches}) => {
+container.addEventListener('touchmove', (ev) => {
+	ev.preventDefault();
+	ev.stopImmediatePropagation();
+	const {touches} = ev;
 	const event = touches[0];
 	onDocumentMouseMove(event)
 	const {x: isDirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
@@ -345,4 +347,4 @@ container.addEventListener('touchmove', ({touches}) => {
 	if (isDirX) {
 		setTouchSpeed(event)
 	}
-})
+}, {passive: false})
