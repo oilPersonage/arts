@@ -127,6 +127,7 @@ button:focus-visible {
   position: relative;
   z-index: 2;
   width: 100%;
+  pointer-events: none;
 }
 .heading__description {
   font-size: 16px;
