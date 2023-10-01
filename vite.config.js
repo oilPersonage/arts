@@ -2,7 +2,7 @@ import {defineConfig} from "vite";
 import glsl from "vite-plugin-glsl";
 
 export default defineConfig({
-	base: "/",
+	base: "/arts",
 	build: {
 		sourcemap: true,
 		// Reduce bloat from legacy polyfills.
