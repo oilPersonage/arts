@@ -2,14 +2,12 @@ import * as THREE from 'three';
 import fragment from "./shaders/fragment.glsl?raw";
 import vertex from "./shaders/vertex.glsl?raw";
 import {WheelGesture} from '@use-gesture/vanilla';
-import anime from 'animejs'
 
 const cursor = document.querySelector('.cursor')
 const cursorDot = document.querySelector('.cursorDot')
 
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
-import {log} from "three/nodes";
 
 const CURSOR_SIZE = 64;
 const CURSOR_OFFSET = CURSOR_SIZE / 2;
@@ -26,14 +24,14 @@ const SCROLL_FORCE = 0.00015;
 const MOUSE_INERTIA = 0.15;
 const PARALLAX_FORCE = 0.1;
 let OFFSET_BETWEEN_IMG = 0.12;
-let HEIGHT_CARD = 600 * 3; // 700 px
+// let HEIGHT_CARD = 600 * 3; // 700 px
+let HEIGHT_CARD = 0.7; // % отновсительно высоты
 let CAMERA_OFFSET = 0.2;
 let VIEWPORT_WIDTH = 5;
 let VIEWPORT_HEIGHT = 3;
 let CAMERA_DEPTH = 2;
 let PERCENT_CUR_TH = 0;
 let PERCENT_CUR_TW = 0;
-let TOUCH_FUNCTION_CALLS = 0;
 let MAX_SCROLL_WIDTH = calculateMaxScrollWidth();
 
 let camera, scene, renderer, width, height, controls, mesh, gui, raycaster, intersects, isHovered;
@@ -87,9 +85,9 @@ function init() {
 
 
 	if (isMobile) {
-		HEIGHT_CARD = 500 * 3;
+		HEIGHT_CARD = 0.6;
 		CAMERA_OFFSET = 0.1;
-		OFFSET_BETWEEN_IMG = 0.08;
+		OFFSET_BETWEEN_IMG = 0.12;
 		MAX_SCROLL_WIDTH = calculateMaxScrollWidth()
 	}
 
@@ -170,13 +168,12 @@ function calculateViewSizes(o, geometry, index) {
 
 	const offsetPercent = CAMERA_OFFSET / VIEWPORT_HEIGHT;
 
-	const sizes = {
+	return {
 		left: (initLeft + OFFSET_BETWEEN_IMG * index) / VIEWPORT_WIDTH,
 		right: (wP + initLeft + OFFSET_BETWEEN_IMG * index) / VIEWPORT_WIDTH,
 		top: halfHideView + offsetPercent,
 		bottom: halfHideView + hSizeInView + offsetPercent,
 	}
-	return sizes;
 }
 
 
@@ -192,10 +189,9 @@ function initGesture() {
 }
 
 function getPlaneSize() {
-	const h = window.innerHeight;
-	const planeHeight = HEIGHT_CARD / h;
+	const planeHeight = VIEWPORT_HEIGHT * HEIGHT_CARD;
+	console.log(VIEWPORT_HEIGHT, HEIGHT_CARD)
 	const planeWidth = planeHeight * IMAGE_ASPECT_WIDTH;
-
 	return {planeWidth, planeHeight};
 }
 
@@ -237,10 +233,6 @@ function onClick() {
 		})
 	}, 100)
 }
-
-document.addEventListener('mousemove', onDocumentMouseMove, false)
-window.addEventListener("resize", resize);
-container.querySelector('canvas').addEventListener("click", onClick);
 
 function limitScroll() {
 	return sliderPosition < 0 || sliderPosition > MAX_SCROLL_WIDTH;
@@ -312,7 +304,22 @@ function isStopScrolling(direction) {
 	return isLeftStop || isRightStop && !isRight
 }
 
-container.addEventListener('touchstart', ({touches}) => {
+function touchMove(ev) {
+	ev.preventDefault();
+	ev.stopImmediatePropagation();
+	const {touches} = ev;
+	const event = touches[0];
+	onDocumentMouseMove(event)
+	const {x: isDirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
+
+	if (isDirX) {
+		setTouchSpeed(event)
+	}
+
+	touchStart.prevX = event.clientX / width;
+}
+
+function handleTouchStart({touches}) {
 	const event = touches[0];
 	touchStart.x = sliderPosition + event.pageX / width;
 	touchStart.y = sliderPosition + event.pageY / width;
@@ -320,7 +327,7 @@ container.addEventListener('touchstart', ({touches}) => {
 	touchStart.nativeY = event.clientY;
 	touchStart.prevX = event.clientX / width;
 	touchStart.sliderInitPosition = sliderPosition;
-})
+}
 
 function setTouchSpeed(event) {
 	const normX = event.clientX / width; // 0-1 расстояние движения
@@ -331,20 +338,10 @@ function setTouchSpeed(event) {
 	const next = 100 * dx * SCROLL_FORCE * diffX || 0;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
-
-	touchStart.prevX = event.clientX / width;
 }
 
-container.addEventListener('touchmove', (ev) => {
-	ev.preventDefault();
-	ev.stopImmediatePropagation();
-	const {touches} = ev;
-	const event = touches[0];
-	onDocumentMouseMove(event)
-	const {x: isDirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
-	// if (TOUCH_FUNCTION_CALLS > 15) return;
-	// ++TOUCH_FUNCTION_CALLS;
-	if (isDirX) {
-		setTouchSpeed(event)
-	}
-}, {passive: false})
+container.addEventListener('touchmove', touchMove, {passive: false})
+container.addEventListener('touchstart', handleTouchStart)
+document.addEventListener('mousemove', onDocumentMouseMove, false)
+window.addEventListener("resize", resize);
+container.querySelector('canvas').addEventListener("click", onClick);

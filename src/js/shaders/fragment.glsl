@@ -4,7 +4,6 @@ uniform vec2 uResolution;
 uniform vec2 position;
 uniform float uTime;
 uniform float uHover;
-uniform float uIndex;
 uniform sampler2D uTexture;
 varying vec2 vUv;
 uniform float uRatio;
