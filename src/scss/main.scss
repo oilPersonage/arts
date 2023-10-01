@@ -20,6 +20,7 @@
 
 * {
   cursor: none;
+  box-sizing: border-box;
 }
 
 body {
@@ -136,6 +137,11 @@ button:focus-visible {
       color: $accent;
     }
   }
+
+  &.hide {
+    opacity: 0;
+    z-index: 0;
+  }
 }
 
 
@@ -159,6 +165,18 @@ button:focus-visible {
   }
 }
 
+.description {
+  position: absolute;
+  bottom: 32px;
+  z-index: 2;
+  color: white;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 1rem;
+  width: 100%;
+  text-align: center;
+}
+
 .cursor, .cursorDot {
   position: absolute;
   z-index: 3;
@@ -167,7 +185,7 @@ button:focus-visible {
   border: 1px solid rgba(white, 0.3);
   border-radius: 50%;
   pointer-events: none;
-  background: rgba(0, 0, 0, .3);
+  background: rgba(0, 0, 0, .4);
 }
 
 .cursorDot {

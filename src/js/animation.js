@@ -1,57 +1,58 @@
 import * as THREE from 'three';
 import fragment from "./shaders/fragment.glsl?raw";
 import vertex from "./shaders/vertex.glsl?raw";
-import {Gesture} from '@use-gesture/vanilla';
+import {WheelGesture} from '@use-gesture/vanilla';
 import anime from 'animejs'
 
 const cursor = document.querySelector('.cursor')
 const cursorDot = document.querySelector('.cursorDot')
 
 import {data} from './data.js'
-
-import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {log} from "three/nodes";
+import {getTouchDirection} from "./utils/getTouchDirection.js";
 
 const CURSOR_SIZE = 64;
 const CURSOR_OFFSET = CURSOR_SIZE / 2;
+const touchStart = {
+	value: true,
+	x: 0,
+}
 
 setCursorSizes(CURSOR_SIZE)
 
-const HEIGHT_CARD = 600 * 3; // 700 px
 const IMAGE_ASPECT_WIDTH = 0.5625;
 const SMOOTH = 0.9;
-const SCROLL_FORCE = 0.0001;
-const OFFSET_BETWEEN_IMG = 0.12;
-const MAX_SCROLL_WIDTH = data.length - 1 + OFFSET_BETWEEN_IMG * (data.length - 1);
-const CAMERA_OFFSET = 0.2;
+const SCROLL_FORCE = 0.00015;
 const MOUSE_INERTIA = 0.15;
-const ANIMATION_DURATION = 3000;
+const PARALLAX_FORCE = 0.1;
+let OFFSET_BETWEEN_IMG = 0.12;
+let HEIGHT_CARD = 600 * 3; // 700 px
+let CAMERA_OFFSET = 0.2;
 let VIEWPORT_WIDTH = 5;
 let VIEWPORT_HEIGHT = 3;
 let CAMERA_DEPTH = 2;
 let PERCENT_CUR_TH = 0;
 let PERCENT_CUR_TW = 0;
+let TOUCH_FUNCTION_CALLS = 0;
+let MAX_SCROLL_WIDTH = calculateMaxScrollWidth();
 
 let camera, scene, renderer, width, height, controls, mesh, gui, raycaster, intersects, isHovered;
+const container = document.getElementById('container');
+let isMobile = window.matchMedia('(max-width: 600px)').matches
+
 let sliderPosition = 0;
 let sliderSpeed = 0;
-
-const settings = {
-	camera: {
-		positionX: 0,
-		positionY: 0,
-		positionZ: 0,
-	}
-}
 
 const mouse = new THREE.Vector2()
 const futureMouse = new THREE.Vector2()
 
 const dataItems = [];
 
-
 imgLoading();
 animate();
+
+function calculateMaxScrollWidth() {
+	return data.length - 1 + OFFSET_BETWEEN_IMG * (data.length - 1);
+}
 
 function imgLoading() {
 	let loadImages = 0;
@@ -73,8 +74,6 @@ function init() {
 	width = window.innerWidth;
 	height = window.innerHeight;
 
-	const container = document.getElementById('container');
-
 	renderer = new THREE.WebGLRenderer({
 		precision: 'highp',
 		antialias: true,
@@ -84,6 +83,14 @@ function init() {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
 	container.appendChild(renderer.domElement);
+
+
+	if (isMobile) {
+		HEIGHT_CARD = 500 * 3;
+		CAMERA_OFFSET = 0.1;
+		OFFSET_BETWEEN_IMG = 0.08;
+		MAX_SCROLL_WIDTH = calculateMaxScrollWidth()
+	}
 
 	camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
 	camera.position.set(0, CAMERA_OFFSET, CAMERA_DEPTH);
@@ -125,7 +132,8 @@ function createMeshes() {
 				uMouse: {value: mouse},
 				uInitOffset: {value: index},
 				uOffsetBetweenImg: {value: OFFSET_BETWEEN_IMG},
-				uBigSizeShow: {value: 0},
+				uParallaxOffset: {value: 0},
+				uParallaxForce: {value: PARALLAX_FORCE},
 			},
 			// wireframe: true,
 			vertexShader: vertex,
@@ -164,35 +172,22 @@ function calculateViewSizes(o, geometry, index) {
 	const sizes = {
 		left: (initLeft + OFFSET_BETWEEN_IMG * index) / VIEWPORT_WIDTH,
 		right: (wP + initLeft + OFFSET_BETWEEN_IMG * index) / VIEWPORT_WIDTH,
-		top: halfHideView + offsetPercent - PERCENT_CUR_TH,
-		bottom: halfHideView + hSizeInView + offsetPercent + PERCENT_CUR_TH,
+		top: halfHideView + offsetPercent,
+		bottom: halfHideView + hSizeInView + offsetPercent,
 	}
 	return sizes;
 }
 
+
 function initGesture() {
 	const element = document.body;
 
-	function onWheel({offset: [, y], direction: [, dy], ...rest}) {
+	function onWheel({offset: [, y], direction: [dx, dy], ...rest}) {
 		const next = 100 * dy * SCROLL_FORCE;
-
-		const isRight = dy !== 1;
-		const isLeftStop = sliderPosition < 0 && isRight;
-		const isRightStop = sliderPosition > MAX_SCROLL_WIDTH;
-		sliderSpeed = isLeftStop || isRightStop && !isRight ? 0 : sliderSpeed + next;
-		sliderPosition = isLeftStop && dy === -1 ? 0 : isRightStop && dy === 1 ? MAX_SCROLL_WIDTH : sliderPosition;
+		sliderSpeed = isStopScrolling(dy) ? 0 : sliderSpeed + next;
 	}
 
-	const eventGesture = new Gesture(element, {
-		onWheel,
-		// gesture specific options
-		// drag: dragOptions,
-		// wheel: wheelOptions,
-		// pinch: pinchOptions,
-		// scroll: scrollOptions,
-		// wheel: wheelOptions,
-		// hover: hoverOptions,
-	})
+	new WheelGesture(element, onWheel)
 }
 
 function getPlaneSize() {
@@ -203,24 +198,12 @@ function getPlaneSize() {
 	return {planeWidth, planeHeight};
 }
 
-
-// function setDataGui() {
-// 	gui = new GUI();
-// 	document.querySelector('#gui').append(gui.domElement);
-//
-// 	// const cameraFolder = gui.addFolder('Camera')
-// 	// console.log(mesh)
-// 	gui.add(uniforms.uHover, 'value', 0, 1, 0.01)
-// 	// // cameraFolder.open()
-// }
-
 function onDocumentMouseMove(event) {
 	futureMouse.set(event.clientX / renderer.domElement.clientWidth,
 		event.clientY / renderer.domElement.clientHeight)
 	cursorDot.style.transform = `translate(${width * futureMouse.x - 4}px, ${height * futureMouse.y - 4}px)`
 }
 
-document.addEventListener('mousemove', onDocumentMouseMove, false)
 
 function resize() {
 	const calcWidth = window.innerWidth;
@@ -237,25 +220,28 @@ function resize() {
 	PERCENT_CUR_TW = CURSOR_OFFSET / calcWidth;
 }
 
-window.addEventListener("resize", resize);
-
 function onClick() {
-	let isShowBigImage = false;
-	dataItems.forEach(el => {
-		if (el.isHovered) {
-			el.mesh.material.uniforms.uBigSizeShow.value = 1;
-		} else {
-			el.mesh.material.uniforms.uBigSizeShow.value = 0;
-		}
 
-		isShowBigImage = isHovered ? true : isShowBigImage
-	})
-	console.log(isShowBigImage)
+	// костыль, что бы он hover in animate успел поставить el.isHovered
+	setTimeout(() => {
+		dataItems.forEach((el, index) => {
+			if (el.isHovered) {
+				const link = document.createElement('a')
+				link.download = `lirules_${index}`
+				link.setAttribute('target', '_blank')
+
+				link.href = el.texture.source.data.src;
+				link.click()
+			}
+		})
+	}, 100)
 }
 
-window.addEventListener('click', onClick)
+document.addEventListener('mousemove', onDocumentMouseMove, false)
+window.addEventListener("resize", resize);
+container.querySelector('canvas').addEventListener("click", onClick);
 
-function setLimitScroll() {
+function limitScroll() {
 	return sliderPosition < 0 || sliderPosition > MAX_SCROLL_WIDTH;
 }
 
@@ -264,9 +250,14 @@ function setCursorSizes(size) {
 	cursor.style.width = size + 'px'
 }
 
+
+function clamp(val, min = 0, max = MAX_SCROLL_WIDTH) {
+	return Math.min(Math.max(val, min), max)
+}
+
 function animate() {
 
-	sliderPosition += sliderSpeed;
+	sliderPosition = clamp(sliderPosition + sliderSpeed);
 	sliderSpeed *= SMOOTH;
 
 
@@ -283,31 +274,23 @@ function animate() {
 
 	dataItems.forEach((el, index) => {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams
-		
-		if (!setLimitScroll()) {
-			el.mesh.material.uniforms.uOffset.value = initPos - sliderPosition;
+		const uOffset = initPos - sliderPosition
+		const scrollWidth = dataItems.length - 1 + OFFSET_BETWEEN_IMG * (dataItems.length - 1)
+
+		if (!limitScroll()) {
+			el.mesh.material.uniforms.uOffset.value = uOffset;
+			el.mesh.material.uniforms.uParallaxOffset.value = uOffset / scrollWidth * PARALLAX_FORCE;
 		}
 
-		const insideX = mouse.x >= initLeft - sliderPosition / VIEWPORT_WIDTH - PERCENT_CUR_TW && mouse.x <= initRight - sliderPosition / VIEWPORT_WIDTH + PERCENT_CUR_TW;
-		const insideY = mouse.y >= initTop && mouse.y <= initBottom;
+		const insideX = futureMouse.x >= initLeft - sliderPosition / VIEWPORT_WIDTH && futureMouse.x <= initRight - sliderPosition / VIEWPORT_WIDTH;
+		const insideY = futureMouse.y >= initTop && futureMouse.y <= initBottom;
 		const inside = insideX && insideY;
 
 
 		if (!el.isHovered && inside) {
 			el.isHovered = true;
-			anime({
-				targets: el.mesh.material.uniforms.uHover,
-				value: 1,
-				duration: ANIMATION_DURATION
-			})
 		} else if (el.isHovered && !inside) {
 			el.isHovered = false;
-
-			anime({
-				targets: el.mesh.material.uniforms.uHover,
-				value: 0,
-				duration: ANIMATION_DURATION
-			})
 		}
 	})
 	isHovered = dataItems.some(el => el.isHovered)
@@ -320,3 +303,46 @@ function animate() {
 	renderer.render(scene, camera);
 	requestAnimationFrame(animate);
 }
+
+function isStopScrolling(direction) {
+	const isRight = direction !== 1;
+	const isLeftStop = sliderPosition < 0 && isRight;
+	const isRightStop = sliderPosition > MAX_SCROLL_WIDTH;
+	return isLeftStop || isRightStop && !isRight
+}
+
+container.addEventListener('touchstart', ({touches}) => {
+	const event = touches[0];
+	touchStart.x = sliderPosition + event.pageX / width;
+	touchStart.y = sliderPosition + event.pageY / width;
+	touchStart.nativeX = event.clientX;
+	touchStart.nativeY = event.clientY;
+	touchStart.sliderInitPosition = sliderPosition;
+})
+
+container.addEventListener('touchend', ({touches}) => {
+	// TOUCH_FUNCTION_CALLS = 0;
+})
+
+function setTouchSpeed(event) {
+	const normX = event.clientX / width; // 0-1 расстояние движения
+	let diffX = Math.abs(Math.abs(touchStart.prevX) - Math.abs(normX));
+	diffX = clamp(diffX, -1, 1) * 15;
+
+	const dx = touchStart.x < touchStart.sliderInitPosition + normX ? -1 : 1;
+	const next = 100 * dx * SCROLL_FORCE * diffX || 0;
+	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
+
+	touchStart.prevX = event.clientX / width;
+}
+
+container.addEventListener('touchmove', ({touches}) => {
+	const event = touches[0];
+	onDocumentMouseMove(event)
+	const {x: isDirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
+	// if (TOUCH_FUNCTION_CALLS > 15) return;
+	// ++TOUCH_FUNCTION_CALLS;
+	if (isDirX) {
+		setTouchSpeed(event)
+	}
+})

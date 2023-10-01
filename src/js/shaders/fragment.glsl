@@ -8,18 +8,24 @@ uniform float uIndex;
 uniform sampler2D uTexture;
 varying vec2 vUv;
 uniform float uRatio;
-uniform float uBigSizeShow;
+uniform float uParallaxForce;
+uniform float uParallaxOffset;
 
+mat2 scale(vec2 _scale){
+    return mat2(_scale.x, 0.0,
+    0.0, _scale.y);
+}
 
 void main(){
-    vec2 st = gl_FragCoord.xy/uResolution;
+    vec2 st = vUv;
+    st -= vec2(0.5);
+    st = scale(vec2(0.9)) * st;
+    st += vec2(0.5);
+    st.x += uParallaxOffset;
 
-    vec4 texture = texture2D(uTexture, vUv);
-    vec4 grayTexture = vec4(texture.y / 1.1, texture.y / 1.1, texture.y / 1.1, 1.);
-    vec4 finalColor = mix(grayTexture, texture, uHover);
-    if (uBigSizeShow > 0.) {
-        finalColor = texture;
-    }
-    gl_FragColor = finalColor;
+    vec4 texture = texture2D(uTexture, st);
+    //    vec4 grayTexture = vec4(texture.y / 1.1, texture.y / 1.1, texture.y / 1.1, 1.);
+    //    vec4 finalColor = mix(grayTexture, texture, uHover);
+    gl_FragColor = texture;
 
 }
