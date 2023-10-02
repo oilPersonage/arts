@@ -31679,6 +31679,9 @@ function getTouchDirection(xDiff, yDiff) {
 
 const cursor = document.querySelector('.cursor');
 const cursorDot = document.querySelector('.cursorDot');
+const modal$1 = document.querySelector('.modal__wrapper');
+
+window.downloadFn = undefined;
 
 const CURSOR_SIZE = 64;
 const CURSOR_OFFSET = CURSOR_SIZE / 2;
@@ -31692,7 +31695,7 @@ setCursorSizes(CURSOR_SIZE);
 const IMAGE_ASPECT_WIDTH = 0.5625;
 const SMOOTH = 0.9;
 const SCROLL_FORCE = 0.00015;
-const MOUSE_INERTIA = 0.15;
+const MOUSE_INERTIA = 0.09;
 const PARALLAX_FORCE = 0.1;
 let OFFSET_BETWEEN_IMG = 0.12;
 // let HEIGHT_CARD = 600 * 3; // 700 px
@@ -31754,9 +31757,9 @@ function init() {
 
 
 	if (isMobile) {
-		HEIGHT_CARD = 0.6;
-		CAMERA_OFFSET = 0.1;
-		OFFSET_BETWEEN_IMG = 0.12;
+		HEIGHT_CARD = 1;
+		CAMERA_OFFSET = 0;
+		OFFSET_BETWEEN_IMG = 0.55;
 		MAX_SCROLL_WIDTH = calculateMaxScrollWidth();
 	}
 
@@ -31856,7 +31859,6 @@ function initGesture() {
 
 function getPlaneSize() {
 	const planeHeight = VIEWPORT_HEIGHT * HEIGHT_CARD;
-	console.log(VIEWPORT_HEIGHT, HEIGHT_CARD);
 	const planeWidth = planeHeight * IMAGE_ASPECT_WIDTH;
 	return {planeWidth, planeHeight};
 }
@@ -31880,18 +31882,23 @@ function resize() {
 	renderer.setSize(calcWidth, calcHeight);
 }
 
-function onClick() {
+function onClick$1() {
 
 	// костыль, что бы он hover in animate успел поставить el.isHovered
 	setTimeout(() => {
 		dataItems.forEach((el, index) => {
 			if (el.isHovered) {
-				const link = document.createElement('a');
-				link.download = `lirules_${index}`;
-				link.setAttribute('target', '_blank');
+				modal$1.classList.add('open');
+				window.downloadFn = () => {
+					const link = document.createElement('a');
+					link.download = `lirules_${index}`;
+					link.setAttribute('target', '_blank');
 
-				link.href = el.texture.source.data.src;
-				link.click();
+					link.href = el.texture.source.data.src;
+					link.click();
+
+					modal$1.classList.remove('open');
+				};
 			}
 		});
 	}, 100);
@@ -31925,9 +31932,8 @@ function animate() {
 		mouse.x + (x - mouse.x) * MOUSE_INERTIA,
 		mouse.y + (y - mouse.y) * MOUSE_INERTIA,
 	);
-
+	// console.log( + mouse.y)
 	cursor.style.transform = `translate(${width * mouse.x - CURSOR_OFFSET}px, ${height * mouse.y - CURSOR_OFFSET}px)`;
-
 	dataItems.forEach((el, index) => {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams;
 		const uOffset = initPos - sliderPosition;
@@ -31998,14 +32004,114 @@ function setTouchSpeed(event) {
 	diffX = clamp(diffX, -1, 1) * 15;
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
-	const next = 100 * dx * SCROLL_FORCE * diffX || 0;
+	const next = 140 * dx * SCROLL_FORCE * diffX || 0;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
 
+window.addEventListener("resize", resize);
 container.addEventListener('touchmove', touchMove, {passive: false});
 container.addEventListener('touchstart', handleTouchStart);
 document.addEventListener('mousemove', onDocumentMouseMove, false);
-window.addEventListener("resize", resize);
-container.querySelector('canvas').addEventListener("click", onClick);
-//# sourceMappingURL=index-71e66a1c.js.map
+container.querySelector('canvas').addEventListener("click", onClick$1);
+
+const tabs = [...document.querySelectorAll('.tabs__item')];
+const content = [...document.querySelectorAll('.tabs__contentItem')];
+const copyItem = document.querySelector('.tabs__contentItem_phone');
+const copySuccess = document.querySelector('.copySuccess');
+const modal = document.querySelector('.modal__wrapper');
+
+const downloadButton = document.querySelector('.download');
+const supportButton = document.querySelector('.support');
+const supportContent = document.querySelector('.supportContent');
+
+const paddingV = 12;
+const paddingH = 24;
+
+let activeIndex = 0;
+let prevIndex = 0;
+let timeout;
+let isOpenSupport = false;
+
+const heights = content.map(el => el.clientHeight);
+
+function setStyle() {
+	const currentContent = content[activeIndex];
+	currentContent.classList.add('active');
+	currentContent.style.maxHeight = heights[activeIndex] + paddingV * 2 + 'px';
+	currentContent.style.padding = `${paddingV}px ${paddingH}px`;
+}
+
+function removeStyle() {
+	const currentContent = content[prevIndex];
+	currentContent.classList.remove('active');
+	tabs[prevIndex].classList.remove('active');
+
+	currentContent.style.maxHeight = '0px';
+	currentContent.style.padding = `0px ${paddingH}px`;
+}
+
+function initStyle() {
+	tabs.forEach(el => el.classList.remove('active'));
+	content.forEach(el => {
+		el.classList.remove('active');
+		el.style.maxHeight = '0px';
+		el.style.padding = `0px ${paddingH}px`;
+	});
+}
+
+function onClick({target}) {
+	supportContent.style.maxHeight = '500px';
+	const dataName = target.getAttribute('data-tab');
+	activeIndex = content.findIndex(el => el.getAttribute('data-tabContent') === dataName);
+	removeStyle();
+	setStyle();
+
+	target.classList.add('active');
+	prevIndex = activeIndex;
+}
+
+tabs.forEach(el => el.addEventListener('click', onClick));
+
+copyItem.addEventListener('click', function () {
+	const text = copyItem.textContent.trim();
+	navigator.clipboard.writeText(text)
+		.then(() => {
+			copySuccess.classList.add('active');
+			if (timeout) return;
+			timeout = setTimeout(() => {
+				timeout = null;
+				copySuccess.classList.remove('active');
+			}, 1000);
+			// Получилось!
+		})
+		.catch(err => {
+			console.log('Something went wrong', err);
+		});
+});
+
+function supportClick() {
+
+	supportButton.classList.toggle('open');
+	supportContent.classList.toggle('open');
+
+	if (!isOpenSupport) {
+		isOpenSupport = true;
+		supportContent.style.maxHeight = '156px';
+		tabs[0].click();
+		supportButton.innerHTML = 'Передумал';
+	} else {
+		isOpenSupport = false;
+		supportContent.style.maxHeight = '0px';
+		supportButton.innerHTML = 'Поддержать автора';
+	}
+}
+
+
+supportContent.style.maxHeight = '0px';
+initStyle();
+
+supportButton.addEventListener('click', supportClick);
+downloadButton.addEventListener('click', () => window.downloadFn());
+modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
+//# sourceMappingURL=index-cd0562cd.js.map
