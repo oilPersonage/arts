@@ -1,0 +1,210 @@
+@import "variables";
+
+.overlay {
+  position: fixed;
+  z-index: 222;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__logotype {
+    position: relative;
+    transition: 0.3s;
+
+    &.hide {
+      opacity: 0;
+    }
+  }
+
+  &.hideAnimation {
+    transition: 1s;
+    opacity: 0;
+  }
+
+  &.hide {
+    z-index: -1;
+
+    .logo {
+      &__skull, &__pen, &__heart, &__animItems {
+        animation: none;
+        opacity: 0;
+      }
+
+      &__oLeft {
+        animation: none;
+        //transform: translateX(0);
+      }
+    }
+  }
+}
+
+.logo {
+  height: 28px;
+  width: 130px;
+  position: relative;
+
+  path, rect {
+    fill: white;
+  }
+
+  &__animItems {
+    transform: translate(-8px, 15px);
+  }
+
+  &__oLeft {
+    animation: $introItemDuration leftOAnimation cubic-bezier(0.65, 0.01, 0.62, 0.99) infinite;
+  }
+
+  &__full {
+    transform: translateX(12px);
+  }
+
+  &__animItems {
+    animation: $introDuration groupAnimation infinite;
+    transform: translate(41px, 5px);
+    position: relative;
+    width: 0;
+    height: 0;
+  }
+
+  &__animItem {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      height: 100%;
+    }
+  }
+
+  &__heart {
+    animation: $introItemDuration heartAnim linear infinite;
+    fill: $red !important;
+  }
+
+  &__pen {
+    animation: $introItemDuration penAnim linear infinite;
+    fill: $green !important;
+    position: relative;
+    width: 24px;
+    height: 26px;
+    top: -24px;
+  }
+
+  &__code {
+    animation: $introItemDuration codeAnim linear infinite;
+    position: relative;
+
+    svg {
+      fill: $accent !important;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+
+  &__airline {
+    animation: $introItemDuration airlineAnim linear infinite;
+    fill: $blue !important;
+  }
+}
+
+@keyframes airlineAnim {
+  0%, 77% {
+    opacity: 0;
+  }
+  78%, 100% {
+    opacity: 1;
+  }
+}
+
+@keyframes penAnim {
+  0%, 52% {
+    opacity: 0;
+  }
+  53%, 74% {
+    opacity: 1;
+  }
+  75%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes codeAnim {
+  0%, 28% {
+    opacity: 0;
+  }
+  29%, 47% {
+    opacity: 1;
+  }
+  48%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes heartAnim {
+  0% {
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  24% {
+    opacity: 1;
+  }
+  25%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hideAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes stopOAnimation {
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes groupAnimation {
+  0% {
+    opacity: 0;
+  }
+  15%, 85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes leftOAnimation {
+  0%, 2% {
+    transform: translateX(0px);
+  }
+  2%, 97% {
+    transform: translateX(-30px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}

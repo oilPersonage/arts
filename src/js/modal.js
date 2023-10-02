@@ -1,8 +1,14 @@
+import {animateItem} from "./utils/animate.js";
+import index from "dat.gui";
+
 const tabs = [...document.querySelectorAll('.tabs__item')]
 const content = [...document.querySelectorAll('.tabs__contentItem')]
+const copyText = document.querySelector('.tabs__contentItem_phone p');
 const copyItem = document.querySelector('.tabs__contentItem_phone');
+
 const copySuccess = document.querySelector('.copySuccess');
-const modal = document.querySelector('.modal__wrapper');
+const modalWrapper = document.querySelector('.modal__wrapper');
+const modal = document.querySelector('.modal');
 
 const downloadButton = document.querySelector('.download')
 const supportButton = document.querySelector('.support')
@@ -16,7 +22,22 @@ let prevIndex = 0;
 let timeout;
 let isOpenSupport = false;
 
-const heights = content.map(el => el.clientHeight)
+let isMobile = window.matchMedia('(max-width: 600px)').matches
+const heights = content.map(el => el.clientHeight);
+
+export function showModalFn() {
+	modalWrapper.classList.add('open')
+	animateItem(modal, 'show', 100)
+}
+
+export function hideModalFn() {
+	modal.classList.add('hide')
+	modalWrapper.classList.add('hide')
+	animateItem(modalWrapper, 'open', 300, 'remove')
+	animateItem(modalWrapper, 'hide', 300, 'remove')
+	animateItem(modal, 'hide', 300, 'remove')
+	animateItem(modal, 'show', 300, 'remove')
+}
 
 function setStyle() {
 	const currentContent = content[activeIndex]
@@ -57,7 +78,7 @@ function onClick({target}) {
 tabs.forEach(el => el.addEventListener('click', onClick))
 
 copyItem.addEventListener('click', function () {
-	const text = copyItem.textContent.trim();
+	const text = copyText.textContent.replace(/ |-/g, '');
 	navigator.clipboard.writeText(text)
 		.then(() => {
 			copySuccess.classList.add('active');
@@ -81,9 +102,20 @@ function supportClick() {
 	if (!isOpenSupport) {
 		isOpenSupport = true;
 		supportContent.style.maxHeight = '156px'
-		tabs[0].click()
+		if (isMobile) {
+			tabs[1].click()
+		} else {
+			tabs[0].click()
+		}
 		supportButton.innerHTML = 'Передумал'
 	} else {
+
+		if (isMobile) {
+			activeIndex = 1;
+		} else {
+			activeIndex = 0;
+		}
+
 		isOpenSupport = false;
 		supportContent.style.maxHeight = '0px'
 		supportButton.innerHTML = 'Поддержать автора'
@@ -96,4 +128,4 @@ initStyle()
 
 supportButton.addEventListener('click', supportClick)
 downloadButton.addEventListener('click', () => window.downloadFn())
-modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null)
+modalWrapper.addEventListener('click', ({target}) => target === modalWrapper ? hideModalFn() : null)

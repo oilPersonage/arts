@@ -8,12 +8,25 @@
   .cursorDot {
     display: none;
   }
+  .headerLogo {
+    top: 32px;
+    left: 50%;
+    transform: translate(-50%, -10px);
+
+    &.show {
+      transform: translate(-50%, 0);
+    }
+  }
   .heading {
+    top: 64px;
     padding: 12px 24px;
-    background: rgba(black, 0.7);
-    margin: 12px auto;
-    width: calc(100% - 72px);
-    border-radius: 16px;
+    width: calc(100% - 48px);
+    right: 50%;
+    transform: translate(50%, -10px);
+
+    &.show {
+      transform: translate(50%, 0);
+    }
 
     h1 {
       display: none;
@@ -21,6 +34,7 @@
 
     &__description {
       font-size: 0.7rem;
+      text-align: center;
     }
   }
   .description {
@@ -29,7 +43,26 @@
     padding: 12px 24px;
     margin: auto;
     width: calc(100% - 72px);
-    border-radius: 16px;
-    background: rgba(black, 0.6);
+  }
+
+  .modal {
+    transform: translateY(300px);
+
+    &.hide {
+      transform: translateY(300px);
+    }
+
+    &__wrapper {
+      padding-bottom: 24px;
+    }
+  }
+
+  .social {
+    left: 50%;
+    transform: translate(-50%, 10px);
+
+    &.show {
+      transform: translate(-50%, 0);
+    }
   }
 }

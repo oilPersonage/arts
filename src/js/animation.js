@@ -5,10 +5,13 @@ import {WheelGesture} from '@use-gesture/vanilla';
 
 const cursor = document.querySelector('.cursor')
 const cursorDot = document.querySelector('.cursorDot')
-const modal = document.querySelector('.modal__wrapper')
+const test = document.querySelector('.test')
 
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
+import {hideOverlay} from "./into.js";
+import {debounce} from "./utils/debounce.js";
+import {showModalFn} from "./modal.js";
 
 window.downloadFn = undefined;
 
@@ -28,7 +31,7 @@ const MOUSE_INERTIA = 0.09;
 const PARALLAX_FORCE = 0.1;
 let OFFSET_BETWEEN_IMG = 0.12;
 let HEIGHT_CARD = 0.7; // % отновсительно высоты
-let CAMERA_OFFSET = 0.2;
+let CAMERA_OFFSET = 0;
 let VIEWPORT_WIDTH = 5;
 let VIEWPORT_HEIGHT = 3;
 let CAMERA_DEPTH = 2;
@@ -49,7 +52,6 @@ const futureMouse = new THREE.Vector2()
 const dataItems = [];
 
 imgLoading();
-animate();
 
 function calculateMaxScrollWidth() {
 	return data.length - 1 + OFFSET_BETWEEN_IMG * (data.length - 1);
@@ -57,11 +59,12 @@ function calculateMaxScrollWidth() {
 
 function imgLoading() {
 	let loadImages = 0;
-	data.forEach(el => {
+	data.forEach(async (el) => {
 		const {img, ...rest} = el;
-		const texture = new THREE.TextureLoader().load(img)
+		const texture = await new THREE.TextureLoader().loadAsync(img)
 		dataItems.push({
 			...rest,
+			imgBig: el.imgBigSize,
 			texture
 		})
 		++loadImages;
@@ -88,7 +91,7 @@ function init() {
 
 	if (isMobile) {
 		HEIGHT_CARD = 0.65;
-		CAMERA_OFFSET = 0;
+		CAMERA_OFFSET = 0.1;
 		OFFSET_BETWEEN_IMG = 0.08;
 		MAX_SCROLL_WIDTH = calculateMaxScrollWidth()
 	}
@@ -113,6 +116,15 @@ function init() {
 	createMeshes()
 	initGesture()
 
+	// intro hide
+	setTimeout(hideOverlay, 1200)
+	animate();
+
+	window.addEventListener("resize", resize);
+	container.addEventListener('touchmove', touchMove, {passive: false})
+	container.addEventListener('touchstart', handleTouchStart)
+	document.addEventListener('mousemove', onDocumentMouseMove, false)
+	container.querySelector('canvas').addEventListener("click", onClick);
 	// setDataGui()
 }
 
@@ -154,7 +166,6 @@ function createMeshes() {
 		o.mesh.name = index;
 
 		scene.add(o.mesh)
-
 		// удалить для работы vertex
 	})
 }
@@ -224,24 +235,20 @@ function onClick() {
 	setTimeout(() => {
 		dataItems.forEach((el, index) => {
 			if (el.isHovered) {
-				modal.classList.add('open')
+				showModalFn()
 				window.downloadFn = () => {
 					const link = document.createElement('a')
 					link.download = `lirules_${index}`
 					link.setAttribute('target', '_blank')
 
-					link.href = el.texture.source.data.src;
+					link.href = el.imgBigSize;
 					link.click()
 
 					modal.classList.remove('open')
-				}
+				};
 			}
 		})
 	}, 100)
-}
-
-function limitScroll() {
-	return sliderPosition < 0 || sliderPosition > MAX_SCROLL_WIDTH;
 }
 
 function setCursorSizes(size) {
@@ -255,30 +262,26 @@ function clamp(val, min = 0, max = MAX_SCROLL_WIDTH) {
 }
 
 function animate() {
-
 	sliderPosition = clamp(sliderPosition + sliderSpeed);
 	sliderSpeed *= SMOOTH;
 
-
 	const x = futureMouse.x;
 	const y = futureMouse.y;
-	// console.log(x, y)
 
 	mouse.set(
 		mouse.x + (x - mouse.x) * MOUSE_INERTIA,
 		mouse.y + (y - mouse.y) * MOUSE_INERTIA,
 	)
-	// console.log( + mouse.y)
 	cursor.style.transform = `translate(${width * mouse.x - CURSOR_OFFSET}px, ${height * mouse.y - CURSOR_OFFSET}px)`
+
 	dataItems.forEach((el, index) => {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams
-		const uOffset = initPos - sliderPosition
-		const scrollWidth = dataItems.length - 1 + OFFSET_BETWEEN_IMG * (dataItems.length - 1)
 
-		if (!limitScroll()) {
-			el.mesh.material.uniforms.uOffset.value = uOffset;
-			el.mesh.material.uniforms.uParallaxOffset.value = uOffset / scrollWidth * PARALLAX_FORCE;
-		}
+
+		const uOffset = initPos - sliderPosition;
+
+		el.mesh.material.uniforms.uOffset.value = uOffset;
+		el.mesh.material.uniforms.uParallaxOffset.value = uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE;
 
 		const insideX = futureMouse.x >= initLeft - sliderPosition / VIEWPORT_WIDTH && futureMouse.x <= initRight - sliderPosition / VIEWPORT_WIDTH;
 		const insideY = futureMouse.y >= initTop && futureMouse.y <= initBottom;
@@ -309,16 +312,18 @@ function isStopScrolling(direction) {
 	return isLeftStop || isRightStop && !isRight
 }
 
+
+const f = debounce(setTouchSpeed, 30)
+
 function touchMove(ev) {
 	ev.preventDefault();
 	ev.stopImmediatePropagation();
 	const {touches} = ev;
 	const event = touches[0];
-	onDocumentMouseMove(event)
-	const {x: isDirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
+	const {x: dirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
 
-	if (isDirX) {
-		setTouchSpeed(event)
+	if (dirX) {
+		f(event)
 	}
 
 	touchStart.prevX = event.clientX / width;
@@ -340,13 +345,7 @@ function setTouchSpeed(event) {
 	diffX = clamp(diffX, -1, 1) * 15;
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
-	const next = 140 * dx * SCROLL_FORCE * diffX || 0;
+	const next = 300 * dx * SCROLL_FORCE * diffX || 0;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
-
-window.addEventListener("resize", resize);
-container.addEventListener('touchmove', touchMove, {passive: false})
-container.addEventListener('touchstart', handleTouchStart)
-document.addEventListener('mousemove', onDocumentMouseMove, false)
-container.querySelector('canvas').addEventListener("click", onClick);
