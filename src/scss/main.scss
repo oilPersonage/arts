@@ -7,8 +7,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(0, 0, 0, 1);
   background-color: #242424;
 
   font-synthesis: none;
@@ -19,7 +18,6 @@
 }
 
 * {
-  cursor: none;
   box-sizing: border-box;
 }
 
@@ -30,12 +28,12 @@ body {
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: black;
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #535bf2;
+  dark: #535bf2;
 }
 
 
@@ -94,19 +92,6 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
 
 #gui {
@@ -178,6 +163,10 @@ button:focus-visible {
   text-align: center;
 }
 
+#container {
+  cursor: none;
+}
+
 .cursor, .cursorDot {
   position: absolute;
   z-index: 3;
@@ -210,5 +199,231 @@ button:focus-visible {
     span {
       opacity: 1;
     }
+  }
+}
+
+.supportContent {
+  overflow: hidden;
+  transition: 0.3s linear;
+  opacity: 0;
+
+  &.open {
+    opacity: 1;
+  }
+}
+
+.tabs {
+  display: grid;
+  grid-gap: 4px;
+  grid-template-columns: 2fr 2fr 1fr;
+  margin-bottom: 24px;
+  margin-top: 28px;
+
+  &__contentItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: rgba(black, 0.06);
+    border-radius: 12px;
+    padding: 0 2rem;
+    color: black;
+    overflow: hidden;
+    transition: 0.1s ease;
+
+    &_phone {
+      overflow: hidden;
+      user-select: none;
+
+      &.active {
+        overflow: visible;
+      }
+    }
+
+    &.active {
+      visibility: visible;
+    }
+
+    p {
+      color: black;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      .tabs__contentIcon {
+        svg path {
+          fill: rgba(black, 0.5);
+        }
+      }
+    }
+  }
+
+  &__item {
+    padding: 8px 12px;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.3s ease;
+    font-size: 0.9rem;
+
+    &.active {
+      background: $accent;
+      //color: white;
+    }
+
+    &:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, .06);
+    }
+  }
+
+  &__contentIcon {
+    cursor: pointer;
+    height: 22px;
+    padding: 4px;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+
+    svg {
+      height: 100%;
+
+      path {
+        fill: rgba(black, 0.3);
+      }
+    }
+  }
+}
+
+.qr {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  background: transparent;
+
+  &:hover {
+    cursor: default;
+  }
+
+  img {
+    width: 200px;
+    height: 200px;
+  }
+
+  p {
+    margin-top: 8px;
+    color: black;
+    font-size: 0.8rem;
+    font-weight: 100;
+    pointer-events: none;
+    user-select: none;
+
+    &:nth-last-child(2) {
+      margin-top: 24px;
+    }
+  }
+}
+
+.copySuccess {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $accent;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: 100;
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+
+  &.active {
+    opacity: 1;
+    bottom: -36px;
+  }
+}
+
+.tinkoff {
+  background: $accent;
+
+  &__icon {
+    height: 30px;
+    display: flex;
+
+    svg {
+      height: 100%;
+    }
+  }
+}
+
+.modal {
+  background: darken(white, 5);
+  padding: 24px;
+  border-radius: 24px;
+  height: min-content;
+  transform: translateY(20px);
+
+  &__wrapper {
+    position: fixed;
+    display: flex;
+    padding-top: 20vh;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(black, 0.9);
+    opacity: 0;
+    z-index: -1;
+    transition: 0.3s ease;
+
+    &.open {
+      opacity: 1;
+      z-index: 10;
+    }
+  }
+
+  &__startButton {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: 0.15s;
+
+    &.download {
+      background: white;
+      transition: 0.1s;
+
+      &:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, .06);
+      }
+    }
+
+    &.support {
+      background: $accent;
+      font-weight: bold;
+
+      &:hover {
+        background: darken($accent, 10);
+      }
+    }
+  }
+
+  &__header {
+    color: black;
+    font-weight: bold;
+    margin-bottom: 32px;
   }
 }

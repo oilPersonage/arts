@@ -5,9 +5,12 @@ import {WheelGesture} from '@use-gesture/vanilla';
 
 const cursor = document.querySelector('.cursor')
 const cursorDot = document.querySelector('.cursorDot')
+const modal = document.querySelector('.modal__wrapper')
 
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
+
+window.downloadFn = undefined;
 
 const CURSOR_SIZE = 64;
 const CURSOR_OFFSET = CURSOR_SIZE / 2;
@@ -21,7 +24,7 @@ setCursorSizes(CURSOR_SIZE)
 const IMAGE_ASPECT_WIDTH = 0.5625;
 const SMOOTH = 0.9;
 const SCROLL_FORCE = 0.00015;
-const MOUSE_INERTIA = 0.15;
+const MOUSE_INERTIA = 0.09;
 const PARALLAX_FORCE = 0.1;
 let OFFSET_BETWEEN_IMG = 0.12;
 // let HEIGHT_CARD = 600 * 3; // 700 px
@@ -85,9 +88,9 @@ function init() {
 
 
 	if (isMobile) {
-		HEIGHT_CARD = 0.6;
-		CAMERA_OFFSET = 0.1;
-		OFFSET_BETWEEN_IMG = 0.12;
+		HEIGHT_CARD = 1;
+		CAMERA_OFFSET = 0;
+		OFFSET_BETWEEN_IMG = 0.55;
 		MAX_SCROLL_WIDTH = calculateMaxScrollWidth()
 	}
 
@@ -190,7 +193,6 @@ function initGesture() {
 
 function getPlaneSize() {
 	const planeHeight = VIEWPORT_HEIGHT * HEIGHT_CARD;
-	console.log(VIEWPORT_HEIGHT, HEIGHT_CARD)
 	const planeWidth = planeHeight * IMAGE_ASPECT_WIDTH;
 	return {planeWidth, planeHeight};
 }
@@ -223,12 +225,17 @@ function onClick() {
 	setTimeout(() => {
 		dataItems.forEach((el, index) => {
 			if (el.isHovered) {
-				const link = document.createElement('a')
-				link.download = `lirules_${index}`
-				link.setAttribute('target', '_blank')
+				modal.classList.add('open')
+				window.downloadFn = () => {
+					const link = document.createElement('a')
+					link.download = `lirules_${index}`
+					link.setAttribute('target', '_blank')
 
-				link.href = el.texture.source.data.src;
-				link.click()
+					link.href = el.texture.source.data.src;
+					link.click()
+
+					modal.classList.remove('open')
+				}
 			}
 		})
 	}, 100)
@@ -262,9 +269,8 @@ function animate() {
 		mouse.x + (x - mouse.x) * MOUSE_INERTIA,
 		mouse.y + (y - mouse.y) * MOUSE_INERTIA,
 	)
-
+	// console.log( + mouse.y)
 	cursor.style.transform = `translate(${width * mouse.x - CURSOR_OFFSET}px, ${height * mouse.y - CURSOR_OFFSET}px)`
-
 	dataItems.forEach((el, index) => {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams
 		const uOffset = initPos - sliderPosition
@@ -335,13 +341,13 @@ function setTouchSpeed(event) {
 	diffX = clamp(diffX, -1, 1) * 15;
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
-	const next = 100 * dx * SCROLL_FORCE * diffX || 0;
+	const next = 140 * dx * SCROLL_FORCE * diffX || 0;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
 
+window.addEventListener("resize", resize);
 container.addEventListener('touchmove', touchMove, {passive: false})
 container.addEventListener('touchstart', handleTouchStart)
 document.addEventListener('mousemove', onDocumentMouseMove, false)
-window.addEventListener("resize", resize);
 container.querySelector('canvas').addEventListener("click", onClick);

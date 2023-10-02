@@ -4,21 +4,32 @@
 
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media (max-width: 600px) {
+  .cursor,
+  .cursorDot {
+    display: none;
+  }
   .heading {
-    padding: 0 1rem;
+    padding: 12px 24px;
+    background: rgba(black, 0.7);
+    margin: 12px auto;
+    width: calc(100% - 72px);
+    border-radius: 16px;
 
     h1 {
-      font-size: 1.4rem;
-      margin-right: 2rem;
-      padding-top: 2rem;
+      display: none;
     }
 
     &__description {
-      font-size: 0.9rem;
+      font-size: 0.7rem;
     }
   }
   .description {
-    font-size: 0.9rem;
-    bottom: 72px;
+    font-size: 0.7rem;
+    bottom: 24px;
+    padding: 12px 24px;
+    margin: auto;
+    width: calc(100% - 72px);
+    border-radius: 16px;
+    background: rgba(black, 0.6);
   }
 }
