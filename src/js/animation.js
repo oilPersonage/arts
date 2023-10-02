@@ -27,7 +27,6 @@ const SCROLL_FORCE = 0.00015;
 const MOUSE_INERTIA = 0.09;
 const PARALLAX_FORCE = 0.1;
 let OFFSET_BETWEEN_IMG = 0.12;
-// let HEIGHT_CARD = 600 * 3; // 700 px
 let HEIGHT_CARD = 0.7; // % отновсительно высоты
 let CAMERA_OFFSET = 0.2;
 let VIEWPORT_WIDTH = 5;
@@ -88,9 +87,9 @@ function init() {
 
 
 	if (isMobile) {
-		HEIGHT_CARD = 1;
+		HEIGHT_CARD = 0.65;
 		CAMERA_OFFSET = 0;
-		OFFSET_BETWEEN_IMG = 0.55;
+		OFFSET_BETWEEN_IMG = 0.08;
 		MAX_SCROLL_WIDTH = calculateMaxScrollWidth()
 	}
 
