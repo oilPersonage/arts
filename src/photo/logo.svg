@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 73.41 47.81">
+    <defs>
+        <style>.cls-1{fill:#87aa26;}</style>
+    </defs>
+    <g id="Слой_2" data-name="Слой 2">
+        <g id="Слой_1-2" data-name="Слой 1">
+            <rect id="l_h" data-name="l h" x="53.61" y="10.88" width="7.81" height="26.14"/>
+            <rect id="l_v" data-name="l v" x="59.6" y="23.2" width="7.81" height="19.8"
+                  transform="translate(96.61 -30.4) rotate(90)"/>
+            <rect id="i" x="39.84" y="10.88" width="7.81" height="7.81" transform="translate(87.49 29.56) rotate(180)"/>
+            <path id="left_o" data-name="left o"
+                  d="M28.52,37H20.89V29.21H25.1a1,1,0,0,0,1-1v-8.6a1,1,0,0,0-1-1H20.89V10.86h7.63a5.36,5.36,0,0,1,5.36,5.36V31.66A5.36,5.36,0,0,1,28.52,37Z"/>
+            <path id="right_o" data-name="right o"
+                  d="M5.49,37h7.63V29.21H8.91a1,1,0,0,1-1-1v-8.6a1,1,0,0,1,1-1h4.21V10.86H5.49A5.36,5.36,0,0,0,.13,16.22V31.66A5.36,5.36,0,0,0,5.49,37Z"/>
+        </g>
+    </g>
+</svg>

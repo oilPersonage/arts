@@ -16,6 +16,7 @@ let prevIndex = 0;
 let timeout;
 let isOpenSupport = false;
 
+let isMobile = window.matchMedia('(max-width: 600px)').matches
 const heights = content.map(el => el.clientHeight)
 
 function setStyle() {
@@ -81,7 +82,11 @@ function supportClick() {
 	if (!isOpenSupport) {
 		isOpenSupport = true;
 		supportContent.style.maxHeight = '156px'
-		tabs[0].click()
+		if (isMobile) {
+			tabs[1].click()
+		} else {
+			tabs[0].click()
+		}
 		supportButton.innerHTML = 'Передумал'
 	} else {
 		isOpenSupport = false;

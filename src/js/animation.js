@@ -9,6 +9,7 @@ const modal = document.querySelector('.modal__wrapper')
 
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
+import {hideOverlay} from "./into.js";
 
 window.downloadFn = undefined;
 
@@ -112,6 +113,8 @@ function init() {
 
 	createMeshes()
 	initGesture()
+
+	setTimeout(hideOverlay, 1200)
 
 	// setDataGui()
 }
