@@ -376,6 +376,169 @@ button:focus-visible {
   font-weight: bold;
   margin-bottom: 32px;
 }
+.overlay {
+  position: fixed;
+  z-index: 222;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlay__logotype {
+  position: relative;
+}
+.overlay.hideAnimation {
+  transition: 1s;
+  opacity: 0;
+}
+.overlay.hide {
+  z-index: -1;
+}
+.overlay.hide .logo__skull, .overlay.hide .logo__pen, .overlay.hide .logo__heart, .overlay.hide .logo__animItems {
+  animation: none;
+  opacity: 0;
+}
+.overlay.hide .logo__oLeft {
+  animation: none;
+}
+.logo {
+  height: 28px;
+  width: 130px;
+  position: relative;
+}
+.logo path, .logo rect {
+  fill: white;
+}
+.logo__animItems {
+  transform: translate(-8px, 15px);
+}
+.logo__oLeft {
+  animation: 3s leftOAnimation infinite;
+}
+.logo__full {
+  transform: translateX(12px);
+}
+.logo__animItems {
+  animation: 3s groupAnimation infinite;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+.logo__animItem {
+  position: absolute;
+  width: 20px;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo__heart {
+  animation: 9s heartAnim linear infinite;
+  fill: #ff2d2d !important;
+}
+.logo__pen {
+  animation: 9s penAnim linear infinite;
+  fill: #54ff2d !important;
+  position: relative;
+  width: 14px;
+  top: -10px;
+}
+.logo__skull {
+  animation: 9s skullAnim linear infinite;
+  fill: #ffdd2d !important;
+}
+.mainLogo {
+  position: fixed;
+  z-index: 4;
+  height: 18px;
+  left: 72px;
+  top: 32px;
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: 0.3s ease-in;
+}
+.mainLogo.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+.mainLogo svg {
+  height: 100%;
+}
+@keyframes penAnim {
+  0%, 32% {
+    opacity: 0;
+  }
+  33%, 63% {
+    opacity: 1;
+  }
+  64%, 100% {
+    opacity: 0;
+  }
+}
+@keyframes skullAnim {
+  0%, 65% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  66%, 100% {
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+}
+@keyframes heartAnim {
+  0%, 32% {
+    opacity: 1;
+  }
+  33%, 100% {
+    opacity: 0;
+  }
+}
+@keyframes hideAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes stopOAnimation {
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes groupAnimation {
+  0% {
+    transform: translate(41px, 45px);
+    opacity: 0;
+  }
+  15%, 80% {
+    transform: translate(41px, 5px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(41px, 45px);
+    opacity: 0;
+  }
+}
+@keyframes leftOAnimation {
+  0% {
+    transform: translateX(0px);
+  }
+  10%, 90% {
+    transform: translateX(-30px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
 /* Responsive layout - makes a two column-layout instead of four columns */
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media (max-width: 600px) {

@@ -31677,6 +31677,18 @@ function getTouchDirection(xDiff, yDiff) {
 	return {x: isX, y: isY}
 }
 
+const overlay = document.querySelector('.overlay');
+const mainLogo = document.querySelector('.mainLogo');
+
+function hideOverlay() {
+	overlay.classList.toggle('hideAnimation');
+
+	setTimeout(() => {
+		overlay.classList.toggle('hide');
+		mainLogo.classList.add('show');
+	}, 1000);
+}
+
 const cursor = document.querySelector('.cursor');
 const cursorDot = document.querySelector('.cursorDot');
 const modal$1 = document.querySelector('.modal__wrapper');
@@ -31707,7 +31719,7 @@ let MAX_SCROLL_WIDTH = calculateMaxScrollWidth();
 
 let camera, scene, renderer, width, height, isHovered;
 const container = document.getElementById('container');
-let isMobile = window.matchMedia('(max-width: 600px)').matches;
+let isMobile$1 = window.matchMedia('(max-width: 600px)').matches;
 
 let sliderPosition = 0;
 let sliderSpeed = 0;
@@ -31755,7 +31767,7 @@ function init() {
 	container.appendChild(renderer.domElement);
 
 
-	if (isMobile) {
+	if (isMobile$1) {
 		HEIGHT_CARD = 0.65;
 		CAMERA_OFFSET = 0;
 		OFFSET_BETWEEN_IMG = 0.08;
@@ -31778,6 +31790,8 @@ function init() {
 
 	createMeshes();
 	initGesture();
+
+	setTimeout(hideOverlay, 1200);
 
 	// setDataGui()
 }
@@ -32032,6 +32046,7 @@ let prevIndex = 0;
 let timeout;
 let isOpenSupport = false;
 
+let isMobile = window.matchMedia('(max-width: 600px)').matches;
 const heights = content.map(el => el.clientHeight);
 
 function setStyle() {
@@ -32097,7 +32112,11 @@ function supportClick() {
 	if (!isOpenSupport) {
 		isOpenSupport = true;
 		supportContent.style.maxHeight = '156px';
-		tabs[0].click();
+		if (isMobile) {
+			tabs[1].click();
+		} else {
+			tabs[0].click();
+		}
 		supportButton.innerHTML = 'Передумал';
 	} else {
 		isOpenSupport = false;
@@ -32113,4 +32132,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-32bcb299.js.map
+//# sourceMappingURL=index-7ffc9fcc.js.map
