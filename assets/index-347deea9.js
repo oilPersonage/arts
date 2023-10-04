@@ -31982,14 +31982,14 @@ function animate() {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams;
 
 
-		if (index === 1 && initPos - sliderPosition !== el.mesh.material.uniforms.uOffset.value) {
+		const uOffset = initPos - sliderPosition;
+
+		if (index === 1 && uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE !== el.mesh.material.uniforms.uParallaxOffset.value) {
 			let p = document.createElement('p');
-			p.textContent = initPos - sliderPosition > el.mesh.material.uniforms.uOffset.value;
+			p.textContent = uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE > el.mesh.material.uniforms.uParallaxOffset.value;
 			p.style.fontSize = 8 + 'px';
 			test.appendChild(p);
 		}
-
-		const uOffset = initPos - sliderPosition;
 
 		el.mesh.material.uniforms.uOffset.value = uOffset;
 		el.mesh.material.uniforms.uParallaxOffset.value = uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE;
@@ -32165,4 +32165,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-6a40cef8.js.map
+//# sourceMappingURL=index-347deea9.js.map
