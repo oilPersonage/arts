@@ -41,7 +41,7 @@
   transform: translate(-8px, 15px);
 }
 .logo__oLeft {
-  animation: 2s leftOAnimation infinite;
+  animation: 2s leftOAnimation cubic-bezier(0.65, 0.01, 0.62, 0.99) infinite;
 }
 .logo__full {
   transform: translateX(12px);
@@ -567,6 +567,9 @@ button:focus-visible {
   .cursor,
   .cursorDot {
     display: none;
+  }
+  .overlay__logotype {
+    transform: scale(0.6);
   }
   .mainLogo {
     top: 24px;
