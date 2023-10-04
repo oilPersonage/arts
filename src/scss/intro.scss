@@ -16,6 +16,11 @@
 
   &__logotype {
     position: relative;
+    transition: 0.3s;
+
+    &.hide {
+      opacity: 0;
+    }
   }
 
   &.hideAnimation {
