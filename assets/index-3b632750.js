@@ -32049,13 +32049,14 @@ function handleTouchStart({touches}) {
 }
 
 function setTouchSpeed(event) {
-	event.clientX / width; // 0-1 расстояние движения
-	// diffX = clamp(diffX, -1, 1) * 15;
+	const normX = event.clientX / width; // 0-1 расстояние движения
+	let diffX = Math.abs(Math.abs(touchStart.prevX) - Math.abs(normX));
+	diffX = clamp(diffX, -1, 1) * 15;
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
-	// const next = 300 * dx * SCROLL_FORCE * diffX || 0;
-	const next = 100 * SCROLL_FORCE;
+	const next = 300 * dx * SCROLL_FORCE * diffX || 0;
 
+	// sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
 
@@ -32163,4 +32164,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-f5924140.js.map
+//# sourceMappingURL=index-3b632750.js.map
