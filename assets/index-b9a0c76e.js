@@ -31693,16 +31693,31 @@ function getTouchDirection(xDiff, yDiff) {
 	return {x: isX, y: isY}
 }
 
+function showAnimate(elem, className = 'active', ms) {
+	setTimeout(() => {
+		elem.classList.add(className);
+	}, ms);
+}
+
 const overlay = document.querySelector('.overlay');
-const mainLogo = document.querySelector('.mainLogo');
+const headerLogo = document.querySelector('.headerLogo');
+const overlayLogo = document.querySelector('.overlay__logotype');
+const heading = document.querySelector('.heading');
+const downloadHelpText = document.querySelector('.description');
+
+const DEF_TIMEOUT = 300;
 
 function hideOverlay() {
 	overlay.classList.toggle('hideAnimation');
+	showAnimate(overlayLogo, 'hide', 0);
 
 	setTimeout(() => {
 		overlay.classList.toggle('hide');
-		mainLogo.classList.add('show');
-	}, 1000);
+	}, DEF_TIMEOUT);
+
+	showAnimate(headerLogo, 'show', DEF_TIMEOUT + 200);
+	showAnimate(heading, 'show', DEF_TIMEOUT + 600);
+	showAnimate(downloadHelpText, 'show', DEF_TIMEOUT + 600);
 }
 
 function debounce(f, ms) {
@@ -32158,4 +32173,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-4c6b6c53.js.map
+//# sourceMappingURL=index-b9a0c76e.js.map
