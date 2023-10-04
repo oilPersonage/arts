@@ -7,7 +7,6 @@ export function debounce(f, ms) {
 		f.apply(this, arguments);
 
 		isCooldown = true;
-		console.log(1, isCooldown)
 
 		setTimeout(() => isCooldown = false, ms);
 	};

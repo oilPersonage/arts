@@ -69,7 +69,6 @@ function imgLoading() {
 		++loadImages;
 		if (loadImages === data.length) {
 			init();
-			console.log(img)
 		}
 	})
 }
@@ -270,7 +269,6 @@ function animate() {
 	sliderPosition = clamp(sliderPosition + sliderSpeed);
 	sliderSpeed *= SMOOTH;
 
-
 	const x = futureMouse.x;
 	const y = futureMouse.y;
 	// console.log(x, y)
@@ -351,10 +349,11 @@ function handleTouchStart({touches}) {
 function setTouchSpeed(event) {
 	const normX = event.clientX / width; // 0-1 расстояние движения
 	let diffX = Math.abs(Math.abs(touchStart.prevX) - Math.abs(normX));
-	diffX = clamp(diffX, -1, 1) * 15;
+	// diffX = clamp(diffX, -1, 1) * 15;
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
-	const next = 300 * dx * SCROLL_FORCE * diffX || 0;
+	// const next = 300 * dx * SCROLL_FORCE * diffX || 0;
+	const next = 300 * dx * SCROLL_FORCE;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
