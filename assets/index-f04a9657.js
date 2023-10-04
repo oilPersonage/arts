@@ -31952,10 +31952,6 @@ function onClick$1() {
 	}, 100);
 }
 
-function limitScroll() {
-	return sliderPosition < 0 || sliderPosition > MAX_SCROLL_WIDTH;
-}
-
 function setCursorSizes(size) {
 	cursor.style.height = size + 'px';
 	cursor.style.width = size + 'px';
@@ -31979,17 +31975,14 @@ function animate() {
 		mouse.x + (x - mouse.x) * MOUSE_INERTIA,
 		mouse.y + (y - mouse.y) * MOUSE_INERTIA,
 	);
-	// console.log( + mouse.y)
 	cursor.style.transform = `translate(${width * mouse.x - CURSOR_OFFSET}px, ${height * mouse.y - CURSOR_OFFSET}px)`;
+
 	dataItems.forEach((el, index) => {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams;
 		const uOffset = initPos - sliderPosition;
-		const scrollWidth = dataItems.length - 1 + OFFSET_BETWEEN_IMG * (dataItems.length - 1);
 
-		if (!limitScroll()) {
-			el.mesh.material.uniforms.uOffset.value = uOffset;
-			el.mesh.material.uniforms.uParallaxOffset.value = uOffset / scrollWidth * PARALLAX_FORCE;
-		}
+		el.mesh.material.uniforms.uOffset.value = uOffset;
+		el.mesh.material.uniforms.uParallaxOffset.value = uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE;
 
 		const insideX = futureMouse.x >= initLeft - sliderPosition / VIEWPORT_WIDTH && futureMouse.x <= initRight - sliderPosition / VIEWPORT_WIDTH;
 		const insideY = futureMouse.y >= initTop && futureMouse.y <= initBottom;
@@ -32164,4 +32157,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-3b632750.js.map
+//# sourceMappingURL=index-f04a9657.js.map
