@@ -31723,7 +31723,7 @@ function debounce(f, ms) {
 const cursor = document.querySelector('.cursor');
 const cursorDot = document.querySelector('.cursorDot');
 const modal$1 = document.querySelector('.modal__wrapper');
-const test = document.querySelector('.test');
+document.querySelector('.test');
 
 window.downloadFn = undefined;
 
@@ -31984,13 +31984,6 @@ function animate() {
 
 		const uOffset = initPos - sliderPosition;
 
-		if (index === 1 && uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE !== el.mesh.material.uniforms.uParallaxOffset.value) {
-			let p = document.createElement('p');
-			p.textContent = uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE > el.mesh.material.uniforms.uParallaxOffset.value;
-			p.style.fontSize = 8 + 'px';
-			test.appendChild(p);
-		}
-
 		el.mesh.material.uniforms.uOffset.value = uOffset;
 		el.mesh.material.uniforms.uParallaxOffset.value = uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE;
 
@@ -32165,4 +32158,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-347deea9.js.map
+//# sourceMappingURL=index-f19c88a1.js.map
