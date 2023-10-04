@@ -91,7 +91,7 @@ function init() {
 
 	if (isMobile) {
 		HEIGHT_CARD = 0.65;
-		CAMERA_OFFSET = 0;
+		CAMERA_OFFSET = 0.1;
 		OFFSET_BETWEEN_IMG = 0.08;
 		MAX_SCROLL_WIDTH = calculateMaxScrollWidth()
 	}
@@ -117,7 +117,7 @@ function init() {
 	initGesture()
 
 	// intro hide
-	setTimeout(hideOverlay, 1200)
+	// setTimeout(hideOverlay, 1200)
 	animate();
 
 	window.addEventListener("resize", resize);

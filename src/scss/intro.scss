@@ -136,18 +136,21 @@
 }
 
 @keyframes skullAnim {
-  0%, 65% {
+  0%, 68% {
     opacity: 0;
     transform: translateY(0);
   }
-  66%, 100% {
+  72%, 100% {
     opacity: 1;
     transform: translateY(-5px);
   }
 }
 
 @keyframes heartAnim {
-  0%, 32% {
+  0% {
+    opacity: 0;
+  }
+  4%, 32% {
     opacity: 1;
   }
   33%, 100% {
