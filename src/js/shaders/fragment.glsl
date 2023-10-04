@@ -23,8 +23,6 @@ void main(){
     st.x += uParallaxOffset;
 
     vec4 texture = texture2D(uTexture, st);
-    //    vec4 grayTexture = vec4(texture.y / 1.1, texture.y / 1.1, texture.y / 1.1, 1.);
-    //    vec4 finalColor = mix(grayTexture, texture, uHover);
     gl_FragColor = texture;
 
 }

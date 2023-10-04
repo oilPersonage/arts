@@ -280,7 +280,7 @@ function animate() {
 
 		if (index === 1 && initPos - sliderPosition !== el.mesh.material.uniforms.uOffset.value) {
 			let p = document.createElement('p');
-			p.textContent = initPos - sliderPosition;
+			p.textContent = initPos - sliderPosition > el.mesh.material.uniforms.uOffset.value;
 			p.style.fontSize = 8 + 'px'
 			test.appendChild(p)
 		}
