@@ -278,14 +278,7 @@ function animate() {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams
 
 
-		const uOffset = initPos - sliderPosition
-
-		if (index === 1 && uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE !== el.mesh.material.uniforms.uParallaxOffset.value) {
-			let p = document.createElement('p');
-			p.textContent = uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE > el.mesh.material.uniforms.uParallaxOffset.value;
-			p.style.fontSize = 8 + 'px'
-			test.appendChild(p)
-		}
+		const uOffset = initPos - sliderPosition;
 
 		el.mesh.material.uniforms.uOffset.value = uOffset;
 		el.mesh.material.uniforms.uParallaxOffset.value = uOffset / MAX_SCROLL_WIDTH * PARALLAX_FORCE;
