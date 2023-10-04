@@ -6,6 +6,7 @@ import {WheelGesture} from '@use-gesture/vanilla';
 const cursor = document.querySelector('.cursor')
 const cursorDot = document.querySelector('.cursorDot')
 const modal = document.querySelector('.modal__wrapper')
+const test = document.querySelector('.test')
 
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
@@ -164,7 +165,6 @@ function createMeshes() {
 		o.mesh.name = index;
 
 		scene.add(o.mesh)
-
 		// удалить для работы vertex
 	})
 }
@@ -250,10 +250,6 @@ function onClick() {
 	}, 100)
 }
 
-function limitScroll() {
-	return sliderPosition < 0 || sliderPosition > MAX_SCROLL_WIDTH;
-}
-
 function setCursorSizes(size) {
 	cursor.style.height = size + 'px'
 	cursor.style.width = size + 'px'
@@ -271,7 +267,6 @@ function animate() {
 
 	const x = futureMouse.x;
 	const y = futureMouse.y;
-	// console.log(x, y)
 
 	mouse.set(
 		mouse.x + (x - mouse.x) * MOUSE_INERTIA,
@@ -281,6 +276,15 @@ function animate() {
 
 	dataItems.forEach((el, index) => {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams
+
+
+		if (index === 1 && initPos - sliderPosition !== el.mesh.material.uniforms.uOffset.value) {
+			let p = document.createElement('p');
+			p.textContent = initPos - sliderPosition;
+			p.style.fontSize = 8 + 'px'
+			test.appendChild(p)
+		}
+
 		const uOffset = initPos - sliderPosition
 
 		el.mesh.material.uniforms.uOffset.value = uOffset;
