@@ -8,10 +8,21 @@
   .cursorDot {
     display: none;
   }
+
+  .mainLogo {
+    top: 24px;
+    left: 50%;
+    transform: translate(-50%, -10px);
+
+    &.show {
+      transform: translate(-50%, 0);
+    }
+  }
   .heading {
+    top: 48px;
     padding: 12px 24px;
     background: rgba(black, 0.7);
-    margin: 12px auto;
+    margin: 0 auto;
     width: calc(100% - 72px);
     border-radius: 16px;
 

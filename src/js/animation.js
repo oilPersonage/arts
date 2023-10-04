@@ -10,6 +10,7 @@ const modal = document.querySelector('.modal__wrapper')
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
 import {hideOverlay} from "./into.js";
+import {debounce} from "./utils/debounce.js";
 
 window.downloadFn = undefined;
 
@@ -50,7 +51,6 @@ const futureMouse = new THREE.Vector2()
 const dataItems = [];
 
 imgLoading();
-animate();
 
 function calculateMaxScrollWidth() {
 	return data.length - 1 + OFFSET_BETWEEN_IMG * (data.length - 1);
@@ -58,16 +58,18 @@ function calculateMaxScrollWidth() {
 
 function imgLoading() {
 	let loadImages = 0;
-	data.forEach(el => {
+	data.forEach(async (el) => {
 		const {img, ...rest} = el;
-		const texture = new THREE.TextureLoader().load(img)
+		const texture = await new THREE.TextureLoader().loadAsync(img)
 		dataItems.push({
 			...rest,
+			imgBig: el.imgBigSize,
 			texture
 		})
 		++loadImages;
 		if (loadImages === data.length) {
 			init();
+			console.log(img)
 		}
 	})
 }
@@ -115,7 +117,13 @@ function init() {
 	initGesture()
 
 	setTimeout(hideOverlay, 1200)
+	animate();
 
+	window.addEventListener("resize", resize);
+	container.addEventListener('touchmove', touchMove, {passive: false})
+	container.addEventListener('touchstart', handleTouchStart)
+	document.addEventListener('mousemove', onDocumentMouseMove, false)
+	container.querySelector('canvas').addEventListener("click", onClick);
 	// setDataGui()
 }
 
@@ -233,7 +241,7 @@ function onClick() {
 					link.download = `lirules_${index}`
 					link.setAttribute('target', '_blank')
 
-					link.href = el.texture.source.data.src;
+					link.href = el.imgBigSize;
 					link.click()
 
 					modal.classList.remove('open')
@@ -312,6 +320,9 @@ function isStopScrolling(direction) {
 	return isLeftStop || isRightStop && !isRight
 }
 
+
+const f = debounce(setTouchSpeed, 30)
+
 function touchMove(ev) {
 	ev.preventDefault();
 	ev.stopImmediatePropagation();
@@ -321,7 +332,7 @@ function touchMove(ev) {
 	const {x: isDirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
 
 	if (isDirX) {
-		setTouchSpeed(event)
+		f(event)
 	}
 
 	touchStart.prevX = event.clientX / width;
@@ -343,13 +354,7 @@ function setTouchSpeed(event) {
 	diffX = clamp(diffX, -1, 1) * 15;
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
-	const next = 140 * dx * SCROLL_FORCE * diffX || 0;
+	const next = 300 * dx * SCROLL_FORCE * diffX || 0;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
-
-window.addEventListener("resize", resize);
-container.addEventListener('touchmove', touchMove, {passive: false})
-container.addEventListener('touchstart', handleTouchStart)
-document.addEventListener('mousemove', onDocumentMouseMove, false)
-container.querySelector('canvas').addEventListener("click", onClick);
