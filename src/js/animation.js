@@ -117,7 +117,7 @@ function init() {
 	initGesture()
 
 	// intro hide
-	// setTimeout(hideOverlay, 1200)
+	setTimeout(hideOverlay, 1200)
 	animate();
 
 	window.addEventListener("resize", resize);
