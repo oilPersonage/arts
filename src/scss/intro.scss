@@ -98,51 +98,59 @@
     animation: $introItemDuration penAnim linear infinite;
     fill: $green !important;
     position: relative;
-    width: 14px;
-    top: -10px;
+    width: 24px;
+    height: 26px;
+    top: -24px;
   }
 
   &__code {
-    animation: $introItemDuration penAnim linear infinite;
-    fill: $green !important;
+    animation: $introItemDuration codeAnim linear infinite;
     position: relative;
-    width: 32px;
-    height: 10px;
-    top: 2px;
 
     svg {
+      fill: $accent !important;
       width: 100%;
       height: 100%;
     }
   }
 
 
-  &__skull {
-    animation: $introItemDuration skullAnim linear infinite;
-    fill: $accent !important;
+  &__airline {
+    animation: $introItemDuration airlineAnim linear infinite;
+    fill: $blue !important;
   }
 }
 
 @keyframes penAnim {
-  0%, 35% {
+  0%, 49% {
     opacity: 0;
   }
-  36%, 63% {
+  50%, 74% {
     opacity: 1;
   }
-  64%, 100% {
+  75%, 100% {
     opacity: 0;
   }
 }
 
-@keyframes skullAnim {
-  0%, 68% {
+@keyframes airlineAnim {
+  0%, 75% {
     opacity: 0;
-    transform: translateY(0);
   }
-  72%, 100% {
+  76%, 100% {
     opacity: 1;
-    transform: translateY(-5px);
+  }
+}
+
+@keyframes codeAnim {
+  0%, 26% {
+    opacity: 0;
+  }
+  28%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
   }
 }
 
@@ -150,10 +158,13 @@
   0% {
     opacity: 0;
   }
-  4%, 32% {
+  4% {
     opacity: 1;
   }
-  33%, 100% {
+  24% {
+    opacity: 1;
+  }
+  28%, 100% {
     opacity: 0;
   }
 }
@@ -178,7 +189,7 @@
     transform: translate(41px, 5px);
     opacity: 0;
   }
-  15%, 80% {
+  10%, 90% {
     transform: translate(41px, 5px);
     opacity: 1;
   }
