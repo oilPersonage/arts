@@ -353,7 +353,7 @@ function setTouchSpeed(event) {
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
 	// const next = 300 * dx * SCROLL_FORCE * diffX || 0;
-	const next = 300 * dx * SCROLL_FORCE;
+	const next = 100 * SCROLL_FORCE;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
