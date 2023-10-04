@@ -31723,6 +31723,7 @@ function debounce(f, ms) {
 const cursor = document.querySelector('.cursor');
 const cursorDot = document.querySelector('.cursorDot');
 const modal$1 = document.querySelector('.modal__wrapper');
+const test = document.querySelector('.test');
 
 window.downloadFn = undefined;
 
@@ -31871,7 +31872,6 @@ function createMeshes() {
 		o.mesh.name = index;
 
 		scene.add(o.mesh);
-
 		// удалить для работы vertex
 	});
 }
@@ -31971,7 +31971,6 @@ function animate() {
 
 	const x = futureMouse.x;
 	const y = futureMouse.y;
-	// console.log(x, y)
 
 	mouse.set(
 		mouse.x + (x - mouse.x) * MOUSE_INERTIA,
@@ -31981,6 +31980,15 @@ function animate() {
 
 	dataItems.forEach((el, index) => {
 		const {initLeft, initRight, initPos, initBottom, initTop} = el.userParams;
+
+
+		if (index === 1 && initPos - sliderPosition !== el.mesh.material.uniforms.uOffset.value) {
+			let p = document.createElement('p');
+			p.textContent = initPos - sliderPosition;
+			p.style.fontSize = 8 + 'px';
+			test.appendChild(p);
+		}
+
 		const uOffset = initPos - sliderPosition;
 
 		el.mesh.material.uniforms.uOffset.value = uOffset;
@@ -32157,4 +32165,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-27a84494.js.map
+//# sourceMappingURL=index-39ff4955.js.map
