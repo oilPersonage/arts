@@ -8,6 +8,10 @@ const cursorDot = document.querySelector('.cursorDot')
 const modal = document.querySelector('.modal__wrapper')
 const test = document.querySelector('.test')
 
+const stats = new Stats();
+stats.showPanel(1); // 0: fps, 1: ms, 2: mb, 3+: custom
+test.appendChild(stats.dom);
+
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
 import {hideOverlay} from "./into.js";
@@ -261,7 +265,7 @@ function clamp(val, min = 0, max = MAX_SCROLL_WIDTH) {
 }
 
 function animate() {
-
+	stats.begin();
 	sliderPosition = clamp(sliderPosition + sliderSpeed);
 	sliderSpeed *= SMOOTH;
 
@@ -302,6 +306,7 @@ function animate() {
 		cursorDot.classList.remove('isHovered')
 	}
 	renderer.render(scene, camera);
+	stats.end();
 	requestAnimationFrame(animate);
 }
 
