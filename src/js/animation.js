@@ -2,22 +2,16 @@ import * as THREE from 'three';
 import fragment from "./shaders/fragment.glsl?raw";
 import vertex from "./shaders/vertex.glsl?raw";
 import {WheelGesture} from '@use-gesture/vanilla';
-import 'stats.js'
 
 const cursor = document.querySelector('.cursor')
 const cursorDot = document.querySelector('.cursorDot')
 const modal = document.querySelector('.modal__wrapper')
 const test = document.querySelector('.test')
 
-const stats = new Stats();
-stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-test.appendChild(stats.dom);
-
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
 import {hideOverlay} from "./into.js";
 import {debounce} from "./utils/debounce.js";
-import Stats from "three/addons/libs/stats.module.js";
 
 window.downloadFn = undefined;
 
@@ -122,7 +116,8 @@ function init() {
 	createMeshes()
 	initGesture()
 
-	setTimeout(hideOverlay, 1200)
+	// intro hide
+	// setTimeout(hideOverlay, 1200)
 	animate();
 
 	window.addEventListener("resize", resize);
@@ -267,7 +262,6 @@ function clamp(val, min = 0, max = MAX_SCROLL_WIDTH) {
 }
 
 function animate() {
-	stats.begin();
 	sliderPosition = clamp(sliderPosition + sliderSpeed);
 	sliderSpeed *= SMOOTH;
 
@@ -308,7 +302,6 @@ function animate() {
 		cursorDot.classList.remove('isHovered')
 	}
 	renderer.render(scene, camera);
-	stats.end();
 	requestAnimationFrame(animate);
 }
 
