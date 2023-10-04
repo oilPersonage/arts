@@ -31693,32 +31693,11 @@ function getTouchDirection(xDiff, yDiff) {
 	return {x: isX, y: isY}
 }
 
-function showAnimate(elem, className = 'active', ms) {
-	setTimeout(() => {
-		elem.classList.add(className);
-	}, ms);
-}
-
-const overlay = document.querySelector('.overlay');
-const headerLogo = document.querySelector('.headerLogo');
-const overlayLogo = document.querySelector('.overlay__logotype');
-const heading = document.querySelector('.heading');
-const downloadHelpText = document.querySelector('.description');
-
-const DEF_TIMEOUT = 300;
-
-function hideOverlay() {
-	overlay.classList.toggle('hideAnimation');
-	showAnimate(overlayLogo, 'hide', 0);
-
-	setTimeout(() => {
-		overlay.classList.toggle('hide');
-	}, DEF_TIMEOUT);
-
-	showAnimate(headerLogo, 'show', DEF_TIMEOUT + 200);
-	showAnimate(heading, 'show', DEF_TIMEOUT + 600);
-	showAnimate(downloadHelpText, 'show', DEF_TIMEOUT + 600);
-}
+document.querySelector('.overlay');
+document.querySelector('.headerLogo');
+document.querySelector('.overlay__logotype');
+document.querySelector('.heading');
+document.querySelector('.description');
 
 function debounce(f, ms) {
 
@@ -31839,7 +31818,7 @@ function init() {
 	initGesture();
 
 	// intro hide
-	setTimeout(hideOverlay, 1200);
+	// setTimeout(hideOverlay, 1200)
 	animate();
 
 	window.addEventListener("resize", resize);
@@ -32173,4 +32152,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-716d0b62.js.map
+//# sourceMappingURL=index-8f73f14c.js.map
