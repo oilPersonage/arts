@@ -323,10 +323,9 @@ function touchMove(ev) {
 	ev.stopImmediatePropagation();
 	const {touches} = ev;
 	const event = touches[0];
-	onDocumentMouseMove(event)
-	const {x: isDirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
+	const {x: dirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
 
-	if (isDirX) {
+	if (dirX) {
 		f(event)
 	}
 
@@ -351,6 +350,5 @@ function setTouchSpeed(event) {
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
 	const next = 300 * dx * SCROLL_FORCE * diffX || 0;
 
-	// sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
