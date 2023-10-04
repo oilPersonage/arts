@@ -32152,4 +32152,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-584ffdb9.js.map
+//# sourceMappingURL=index-a537fe9c.js.map
