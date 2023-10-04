@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import fragment from "./shaders/fragment.glsl?raw";
 import vertex from "./shaders/vertex.glsl?raw";
 import {WheelGesture} from '@use-gesture/vanilla';
+import 'stats.js'
 
 const cursor = document.querySelector('.cursor')
 const cursorDot = document.querySelector('.cursorDot')
@@ -16,6 +17,7 @@ import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
 import {hideOverlay} from "./into.js";
 import {debounce} from "./utils/debounce.js";
+import Stats from "three/addons/libs/stats.module.js";
 
 window.downloadFn = undefined;
 
