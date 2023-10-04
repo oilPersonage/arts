@@ -30520,7 +30520,7 @@ if ( typeof window !== 'undefined' ) {
 
 }
 
-const fragment = "#define PI 3.14159265359\n\nuniform vec2 uResolution;\nuniform vec2 position;\nuniform float uTime;\nuniform float uHover;\nuniform sampler2D uTexture;\nvarying vec2 vUv;\nuniform float uRatio;\nuniform float uParallaxForce;\nuniform float uParallaxOffset;\n\nmat2 scale(vec2 _scale){\n    return mat2(_scale.x, 0.0,\n    0.0, _scale.y);\n}\n\nvoid main(){\n    vec2 st = vUv;\n    st -= vec2(0.5);\n    st = scale(vec2(0.9)) * st;\n    st += vec2(0.5);\n    st.x += uParallaxOffset;\n\n    vec4 texture = texture2D(uTexture, st);\n    //    vec4 grayTexture = vec4(texture.y / 1.1, texture.y / 1.1, texture.y / 1.1, 1.);\n    //    vec4 finalColor = mix(grayTexture, texture, uHover);\n    gl_FragColor = texture;\n\n}\n";
+const fragment = "#define PI 3.14159265359\n\nuniform vec2 uResolution;\nuniform vec2 position;\nuniform float uTime;\nuniform float uHover;\nuniform sampler2D uTexture;\nvarying vec2 vUv;\nuniform float uRatio;\nuniform float uParallaxForce;\nuniform float uParallaxOffset;\n\nmat2 scale(vec2 _scale){\n    return mat2(_scale.x, 0.0,\n    0.0, _scale.y);\n}\n\nvoid main(){\n    vec2 st = vUv;\n    st -= vec2(0.5);\n    st = scale(vec2(0.9)) * st;\n    st += vec2(0.5);\n    st.x += uParallaxOffset;\n\n    vec4 texture = texture2D(uTexture, st);\n    gl_FragColor = texture;\n\n}\n";
 
 const vertex = "varying vec2 vUv;\nuniform float uOffset;\nuniform float uInitOffset;\nuniform float uOffsetBetweenImg;\n\n\nvoid main() {\n    vUv = uv;\n\n    vec2 pos = vec2(position.x, position.y);\n    float offset = uOffset;\n\n    if (uInitOffset > 0.) {\n        offset = offset + uOffsetBetweenImg * uInitOffset;\n    }\n\n    pos.x = pos.x + offset;\n    gl_Position = projectionMatrix * viewMatrix * vec4(pos, 0., 1.);\n}";
 
@@ -31984,7 +31984,7 @@ function animate() {
 
 		if (index === 1 && initPos - sliderPosition !== el.mesh.material.uniforms.uOffset.value) {
 			let p = document.createElement('p');
-			p.textContent = initPos - sliderPosition;
+			p.textContent = initPos - sliderPosition > el.mesh.material.uniforms.uOffset.value;
 			p.style.fontSize = 8 + 'px';
 			test.appendChild(p);
 		}
@@ -32165,4 +32165,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-39ff4955.js.map
+//# sourceMappingURL=index-6a40cef8.js.map
