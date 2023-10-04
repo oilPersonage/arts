@@ -31678,222 +31678,6 @@ const data = [
 		imgBigSize: imgBig4,
 		downloadCount: 0,
 	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img1,
-		imgBigSize: imgBig1,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img2,
-		imgBigSize: imgBig2,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img3,
-		imgBigSize: imgBig3,
-		downloadCount: 0,
-	},
-	{
-		tags: 'lirules, шпиц, бали, bali, гора, пара',
-		img: img4,
-		imgBigSize: imgBig4,
-		downloadCount: 0,
-	},
 ];
 
 function getTouchDirection(xDiff, yDiff) {
@@ -31928,7 +31712,6 @@ function debounce(f, ms) {
 		f.apply(this, arguments);
 
 		isCooldown = true;
-		console.log(1, isCooldown);
 
 		setTimeout(() => isCooldown = false, ms);
 	};
@@ -31994,7 +31777,6 @@ function imgLoading() {
 		++loadImages;
 		if (loadImages === data.length) {
 			init();
-			console.log(img);
 		}
 	});
 }
@@ -32189,7 +31971,6 @@ function animate() {
 	sliderPosition = clamp(sliderPosition + sliderSpeed);
 	sliderSpeed *= SMOOTH;
 
-
 	const x = futureMouse.x;
 	const y = futureMouse.y;
 	// console.log(x, y)
@@ -32268,12 +32049,12 @@ function handleTouchStart({touches}) {
 }
 
 function setTouchSpeed(event) {
-	const normX = event.clientX / width; // 0-1 расстояние движения
-	let diffX = Math.abs(Math.abs(touchStart.prevX) - Math.abs(normX));
-	diffX = clamp(diffX, -1, 1) * 15;
+	event.clientX / width; // 0-1 расстояние движения
+	// diffX = clamp(diffX, -1, 1) * 15;
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
-	const next = 300 * dx * SCROLL_FORCE * diffX || 0;
+	// const next = 300 * dx * SCROLL_FORCE * diffX || 0;
+	const next = 300 * dx * SCROLL_FORCE;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
@@ -32382,4 +32163,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-a7626739.js.map
+//# sourceMappingURL=index-61929b29.js.map
