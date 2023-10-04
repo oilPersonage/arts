@@ -31685,7 +31685,9 @@ function getTouchDirection(xDiff, yDiff) {
 	let isY = false;
 	if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
 		isX = true;
+		isY = false;
 	} else {
+		isX = false;
 		isY = true;
 	}
 	return {x: isX, y: isY}
@@ -32021,10 +32023,9 @@ function touchMove(ev) {
 	ev.stopImmediatePropagation();
 	const {touches} = ev;
 	const event = touches[0];
-	onDocumentMouseMove(event);
-	const {x: isDirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
+	const {x: dirX} = getTouchDirection(event.clientX - touchStart.nativeX, event.clientY - touchStart.nativeY);
 
-	if (isDirX) {
+	if (dirX) {
 		f(event);
 	}
 
@@ -32049,7 +32050,6 @@ function setTouchSpeed(event) {
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
 	const next = 300 * dx * SCROLL_FORCE * diffX || 0;
 
-	// sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
 
@@ -32157,4 +32157,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-f04a9657.js.map
+//# sourceMappingURL=index-27a84494.js.map
