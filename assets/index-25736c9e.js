@@ -31693,8 +31693,17 @@ function getTouchDirection(xDiff, yDiff) {
 	return {x: isX, y: isY}
 }
 
-document.querySelector('.overlay');
-document.querySelector('.mainLogo');
+const overlay = document.querySelector('.overlay');
+const mainLogo = document.querySelector('.mainLogo');
+
+function hideOverlay() {
+	overlay.classList.toggle('hideAnimation');
+
+	setTimeout(() => {
+		overlay.classList.toggle('hide');
+		mainLogo.classList.add('show');
+	}, 1000);
+}
 
 function debounce(f, ms) {
 
@@ -31815,7 +31824,7 @@ function init() {
 	initGesture();
 
 	// intro hide
-	// setTimeout(hideOverlay, 1200)
+	setTimeout(hideOverlay, 1200);
 	animate();
 
 	window.addEventListener("resize", resize);
@@ -32149,4 +32158,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-d791ee8d.js.map
+//# sourceMappingURL=index-25736c9e.js.map

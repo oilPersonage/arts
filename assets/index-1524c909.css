@@ -55,6 +55,7 @@
 .logo__animItem {
   position: absolute;
   width: 20px;
+  height: 20px;
   left: 50%;
   top: 0;
   transform: translateX(-50%);
@@ -90,10 +91,10 @@
   fill: #ffdd2d !important;
 }
 @keyframes penAnim {
-  0%, 32% {
+  0%, 35% {
     opacity: 0;
   }
-  33%, 63% {
+  36%, 63% {
     opacity: 1;
   }
   64%, 100% {
