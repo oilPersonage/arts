@@ -349,11 +349,11 @@ function handleTouchStart({touches}) {
 function setTouchSpeed(event) {
 	const normX = event.clientX / width; // 0-1 расстояние движения
 	let diffX = Math.abs(Math.abs(touchStart.prevX) - Math.abs(normX));
-	// diffX = clamp(diffX, -1, 1) * 15;
+	diffX = clamp(diffX, -1, 1) * 15;
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
-	// const next = 300 * dx * SCROLL_FORCE * diffX || 0;
-	const next = 100 * SCROLL_FORCE;
+	const next = 300 * dx * SCROLL_FORCE * diffX || 0;
 
+	// sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
