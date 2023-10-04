@@ -32054,7 +32054,7 @@ function setTouchSpeed(event) {
 
 	const dx = event.clientX / width > touchStart.prevX ? -1 : 1;
 	// const next = 300 * dx * SCROLL_FORCE * diffX || 0;
-	const next = 300 * dx * SCROLL_FORCE;
+	const next = 100 * SCROLL_FORCE;
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
@@ -32163,4 +32163,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-61929b29.js.map
+//# sourceMappingURL=index-f5924140.js.map
