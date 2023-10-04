@@ -43,7 +43,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   min-width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;
   max-width: 100vw;
   overflow: hidden;
 }
@@ -68,7 +68,7 @@ p {
   color: white;
   font-family: Montserrat;
   font-size: 20px;
-  max-width: 80vh;
+  max-width: 80vw;
   margin: 0 auto;
   text-align: center;
 }
@@ -373,7 +373,7 @@ button:focus-visible {
   &__wrapper {
     position: fixed;
     display: flex;
-    padding-top: 20vh;
+    padding-top: 20svh;
     justify-content: center;
     width: 100%;
     height: 100%;
@@ -451,7 +451,7 @@ button:focus-visible {
 .test {
   position: fixed;
   z-index: 33;
-  max-height: 100vh;
+  max-height: 100svh;
   top: 0;
   left: 0;
   background: black;
