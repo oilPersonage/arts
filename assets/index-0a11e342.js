@@ -31726,7 +31726,7 @@ const modal$1 = document.querySelector('.modal__wrapper');
 const test = document.querySelector('.test');
 
 const stats = new Stats();
-stats.showPanel(1); // 0: fps, 1: ms, 2: mb, 3+: custom
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 test.appendChild(stats.dom);
 
 window.downloadFn = undefined;
@@ -32163,4 +32163,4 @@ initStyle();
 supportButton.addEventListener('click', supportClick);
 downloadButton.addEventListener('click', () => window.downloadFn());
 modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-06e0b2a0.js.map
+//# sourceMappingURL=index-0a11e342.js.map
