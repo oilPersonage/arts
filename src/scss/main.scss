@@ -245,7 +245,7 @@ button:focus-visible {
     width: 100%;
     font-size: 1.2rem;
     font-weight: bold;
-    background: rgba(black, 0.06);
+    background: $gray;
     border-radius: 12px;
     padding: 0 2rem;
     color: black;
@@ -323,7 +323,6 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   max-width: 400px;
-  background: transparent;
 
   &:hover {
     cursor: default;
@@ -332,6 +331,7 @@ button:focus-visible {
   img {
     width: 200px;
     height: 200px;
+    mix-blend-mode: multiply;
   }
 
   p {
