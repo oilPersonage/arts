@@ -31707,7 +31707,7 @@ const overlay = document.querySelector('.overlay');
 const headerLogo = document.querySelector('.headerLogo');
 const overlayLogo = document.querySelector('.overlay__logotype');
 const heading = document.querySelector('.heading');
-const downloadHelpText = document.querySelector('.description');
+const social = document.querySelector('.social');
 
 const DEF_TIMEOUT = 300;
 
@@ -31721,7 +31721,7 @@ function hideOverlay() {
 
 	animateItem(headerLogo, 'show', DEF_TIMEOUT + 200);
 	animateItem(heading, 'show', DEF_TIMEOUT + 600);
-	animateItem(downloadHelpText, 'show', DEF_TIMEOUT + 600);
+	animateItem(social, 'show', DEF_TIMEOUT + 600);
 }
 
 function debounce(f, ms) {
@@ -31883,7 +31883,7 @@ const MOUSE_INERTIA = 0.09;
 const PARALLAX_FORCE = 0.1;
 let OFFSET_BETWEEN_IMG = 0.12;
 let HEIGHT_CARD = 0.7; // % отновсительно высоты
-let CAMERA_OFFSET = 0.2;
+let CAMERA_OFFSET = 0;
 let VIEWPORT_WIDTH = 5;
 let VIEWPORT_HEIGHT = 3;
 let CAMERA_DEPTH = 2;
@@ -32193,4 +32193,4 @@ function setTouchSpeed(event) {
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
-//# sourceMappingURL=index-090077a0.js.map
+//# sourceMappingURL=index-09030082.js.map

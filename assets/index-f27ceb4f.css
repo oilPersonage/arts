@@ -284,21 +284,23 @@ button:focus-visible {
   z-index: 1;
 }
 .heading {
-  position: relative;
+  position: absolute;
+  right: 72px;
+  top: 28px;
   z-index: 2;
-  width: 100%;
   pointer-events: none;
-  transform: translateY(-10px);
+  transform: translateX(-10px);
   opacity: 0;
   transition: 0.5s cubic-bezier(0.01, 0.74, 1, 1);
 }
 .heading.show {
-  transform: translateY(0px);
+  transform: translateX(0px);
   opacity: 1;
 }
 .heading__description {
-  font-size: 16px;
-  max-width: 600px;
+  font-size: 14px;
+  max-width: 450px;
+  text-align: right;
 }
 .heading__description span {
   font-weight: bold;
@@ -414,6 +416,7 @@ button:focus-visible {
 .tabs__contentItem_phone {
   overflow: hidden;
   user-select: none;
+  background: white;
 }
 .tabs__contentItem_phone.active {
   overflow: visible;
@@ -487,7 +490,7 @@ button:focus-visible {
 }
 .copySuccess {
   position: absolute;
-  bottom: -24px;
+  top: -52px;
   left: 50%;
   transform: translateX(-50%);
   background: #ffdd2d;
@@ -498,10 +501,10 @@ button:focus-visible {
   opacity: 0;
   user-select: none;
   pointer-events: none;
+  transition: 0.15s ease-in;
 }
 .copySuccess.active {
   opacity: 1;
-  bottom: -36px;
 }
 .tinkoff {
   background: #ffdd2d;
@@ -521,7 +524,7 @@ button:focus-visible {
   opacity: 0;
   transition: 0.3s cubic-bezier(0.01, 0.74, 1, 1);
   transform: translateY(30px);
-  width: calc(100vw - 48px);
+  width: 360px;
 }
 .modal.show {
   opacity: 1;
@@ -535,6 +538,8 @@ button:focus-visible {
 .modal__wrapper {
   position: fixed;
   display: flex;
+  align-items: flex-end;
+  padding-bottom: 10vh;
   justify-content: center;
   width: 100%;
   height: 100%;
@@ -602,16 +607,31 @@ button:focus-visible {
   height: 100%;
   fill: white;
 }
-.test {
+.social {
   position: fixed;
-  z-index: 33;
-  max-height: 100svh;
-  top: 0;
-  left: 0;
-  background: black;
-  color: white;
-  padding: 24px;
-  overflow-y: auto;
+  bottom: 28px;
+  left: 72px;
+  z-index: 4;
+  display: flex;
+  cursor: none;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: 0.3s cubic-bezier(0.01, 0.74, 1, 1);
+}
+.social.show {
+  opacity: 1;
+  transform: translateX(0px);
+}
+.social__item {
+  margin: 0 8px;
+  opacity: 0.5;
+}
+.social__item:hover {
+  opacity: 0.8;
+}
+.social svg {
+  height: 24px;
+  width: 24px;
 }
 /* Responsive layout - makes a two column-layout instead of four columns */
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
@@ -631,14 +651,19 @@ button:focus-visible {
   .heading {
     top: 64px;
     padding: 12px 24px;
-    margin: 0 auto;
-    width: calc(100% - 72px);
+    width: calc(100% - 48px);
+    right: 50%;
+    transform: translate(50%, -10px);
+  }
+  .heading.show {
+    transform: translate(50%, 0);
   }
   .heading h1 {
     display: none;
   }
   .heading__description {
     font-size: 0.7rem;
+    text-align: center;
   }
   .description {
     font-size: 0.7rem;
@@ -647,16 +672,6 @@ button:focus-visible {
     margin: auto;
     width: calc(100% - 72px);
   }
-  .copySuccess {
-    display: flex;
-    top: -52px;
-    bottom: auto;
-    transition: 0.15s ease-in;
-  }
-  .copySuccess.active {
-    opacity: 1;
-    bottom: auto;
-  }
   .modal {
     transform: translateY(300px);
   }
@@ -664,7 +679,13 @@ button:focus-visible {
     transform: translateY(300px);
   }
   .modal__wrapper {
-    align-items: flex-end;
     padding-bottom: 24px;
+  }
+  .social {
+    left: 50%;
+    transform: translate(-50%, 10px);
+  }
+  .social.show {
+    transform: translate(-50%, 0);
   }
 }
