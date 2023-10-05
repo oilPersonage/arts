@@ -2,7 +2,9 @@ import {animateItem} from "./utils/animate.js";
 
 const tabs = [...document.querySelectorAll('.tabs__item')]
 const content = [...document.querySelectorAll('.tabs__contentItem')]
+const copyText = document.querySelector('.tabs__contentItem_phone p');
 const copyItem = document.querySelector('.tabs__contentItem_phone');
+
 const copySuccess = document.querySelector('.copySuccess');
 const modalWrapper = document.querySelector('.modal__wrapper');
 const modal = document.querySelector('.modal');
@@ -75,7 +77,7 @@ function onClick({target}) {
 tabs.forEach(el => el.addEventListener('click', onClick))
 
 copyItem.addEventListener('click', function () {
-	const text = copyItem.textContent.trim();
+	const text = copyText.textContent.replace(/ |-/g, '');
 	navigator.clipboard.writeText(text)
 		.then(() => {
 			copySuccess.classList.add('active');

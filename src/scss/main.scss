@@ -216,7 +216,7 @@ button:focus-visible {
 
 .supportContent {
   position: relative;
-  //overflow: hidden;
+  overflow: hidden;
   transition: 0.3s linear;
   opacity: 0;
   z-index: -1;
@@ -225,6 +225,7 @@ button:focus-visible {
   &.open {
     z-index: 1;
     opacity: 1;
+    overflow: visible;
     visibility: visible;
   }
 }
@@ -448,6 +449,7 @@ button:focus-visible {
     &.support {
       background: $accent;
       font-weight: bold;
+      margin-bottom: 0;
 
       &:hover {
         background: darken($accent, 10);
