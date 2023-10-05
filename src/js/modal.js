@@ -1,4 +1,5 @@
 import {animateItem} from "./utils/animate.js";
+import index from "dat.gui";
 
 const tabs = [...document.querySelectorAll('.tabs__item')]
 const content = [...document.querySelectorAll('.tabs__contentItem')]
@@ -108,6 +109,13 @@ function supportClick() {
 		}
 		supportButton.innerHTML = 'Передумал'
 	} else {
+
+		if (isMobile) {
+			activeIndex = 1;
+		} else {
+			activeIndex = 0;
+		}
+
 		isOpenSupport = false;
 		supportContent.style.maxHeight = '0px'
 		supportButton.innerHTML = 'Поддержать автора'

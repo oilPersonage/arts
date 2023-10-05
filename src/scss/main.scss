@@ -253,6 +253,7 @@ button:focus-visible {
     color: black;
     overflow: hidden;
     transition: 0.1s ease;
+    opacity: 0;
 
     &_phone {
       overflow: hidden;
@@ -266,6 +267,7 @@ button:focus-visible {
 
     &.active {
       visibility: visible;
+      opacity: 1;
     }
 
     p {
@@ -481,6 +483,8 @@ button:focus-visible {
   transform: translateY(-10px);
   opacity: 0;
   transition: 0.3s $showEasing;
+  user-select: none;
+  cursor: none;
 
   &.show {
     transform: translateY(0px);

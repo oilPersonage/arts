@@ -2,6 +2,7 @@ import img1 from '../photo/1-small.jpg'
 import img2 from '../photo/2-small.jpg'
 import img3 from '../photo/3-small.jpg'
 import img4 from '../photo/4-small.jpg'
+import img5 from '../photo/5.PNG?url'
 
 import imgBig1 from '../photo/1.PNG?url'
 import imgBig2 from '../photo/2.PNG?url'
@@ -31,6 +32,12 @@ export const data = [
 		tags: 'lirules, шпиц, бали, bali, гора, пара',
 		img: img4,
 		imgBigSize: imgBig4,
+		downloadCount: 0,
+	},
+	{
+		tags: 'lirules, шпиц, бали, bali, гора, пара',
+		img: img5,
+		imgBigSize: img5,
 		downloadCount: 0,
 	},
 ]
