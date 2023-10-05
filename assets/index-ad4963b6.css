@@ -377,6 +377,7 @@ button:focus-visible {
 }
 .supportContent {
   position: relative;
+  overflow: hidden;
   transition: 0.3s linear;
   opacity: 0;
   z-index: -1;
@@ -385,6 +386,7 @@ button:focus-visible {
 .supportContent.open {
   z-index: 1;
   opacity: 1;
+  overflow: visible;
   visibility: visible;
 }
 .tabs {
@@ -572,6 +574,7 @@ button:focus-visible {
 .modal__startButton.support {
   background: #ffdd2d;
   font-weight: bold;
+  margin-bottom: 0;
 }
 .modal__startButton.support:hover {
   background: #f9d100;
