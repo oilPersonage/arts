@@ -412,6 +412,7 @@ button:focus-visible {
   color: black;
   overflow: hidden;
   transition: 0.1s ease;
+  opacity: 0;
 }
 .tabs__contentItem_phone {
   overflow: hidden;
@@ -423,6 +424,7 @@ button:focus-visible {
 }
 .tabs__contentItem.active {
   visibility: visible;
+  opacity: 1;
 }
 .tabs__contentItem p {
   color: black;
@@ -598,6 +600,8 @@ button:focus-visible {
   transform: translateY(-10px);
   opacity: 0;
   transition: 0.3s cubic-bezier(0.01, 0.74, 1, 1);
+  user-select: none;
+  cursor: none;
 }
 .headerLogo.show {
   transform: translateY(0px);
