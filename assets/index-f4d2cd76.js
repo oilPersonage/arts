@@ -34248,7 +34248,7 @@ const copyItem = document.querySelector('.tabs__contentItem_phone');
 
 const copySuccess = document.querySelector('.copySuccess');
 const modalWrapper = document.querySelector('.modal__wrapper');
-const modal$1 = document.querySelector('.modal');
+const modal = document.querySelector('.modal');
 
 const downloadButton = document.querySelector('.download');
 const supportButton = document.querySelector('.support');
@@ -34267,16 +34267,16 @@ const heights = content.map(el => el.clientHeight);
 
 function showModalFn() {
 	modalWrapper.classList.add('open');
-	animateItem(modal$1, 'show', 100);
+	animateItem(modal, 'show', 100);
 }
 
 function hideModalFn() {
-	modal$1.classList.add('hide');
+	modal.classList.add('hide');
 	modalWrapper.classList.add('hide');
 	animateItem(modalWrapper, 'open', 300, 'remove');
 	animateItem(modalWrapper, 'hide', 300, 'remove');
-	animateItem(modal$1, 'hide', 300, 'remove');
-	animateItem(modal$1, 'show', 300, 'remove');
+	animateItem(modal, 'hide', 300, 'remove');
+	animateItem(modal, 'show', 300, 'remove');
 }
 
 function setStyle() {
@@ -34597,7 +34597,7 @@ function onClick() {
 					link.href = el.imgBigSize;
 					link.click();
 
-					modal.classList.remove('open');
+					hideModalFn();
 				};
 			}
 		});
@@ -34702,4 +34702,4 @@ function setTouchSpeed(event) {
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
-//# sourceMappingURL=index-8553c6aa.js.map
+//# sourceMappingURL=index-f4d2cd76.js.map
