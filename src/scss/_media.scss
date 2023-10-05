@@ -20,8 +20,13 @@
   .heading {
     top: 64px;
     padding: 12px 24px;
-    margin: 0 auto;
-    width: calc(100% - 72px);
+    width: calc(100% - 48px);
+    right: 50%;
+    transform: translate(50%, -10px);
+
+    &.show {
+      transform: translate(50%, 0);
+    }
 
     h1 {
       display: none;
@@ -29,6 +34,7 @@
 
     &__description {
       font-size: 0.7rem;
+      text-align: center;
     }
   }
   .description {
@@ -39,18 +45,6 @@
     width: calc(100% - 72px);
   }
 
-  .copySuccess {
-    display: flex;
-    top: -52px;
-    bottom: auto;
-    transition: 0.15s ease-in;
-
-    &.active {
-      opacity: 1;
-      bottom: auto;
-    }
-  }
-
   .modal {
     transform: translateY(300px);
 
@@ -59,8 +53,16 @@
     }
 
     &__wrapper {
-      align-items: flex-end;
       padding-bottom: 24px;
+    }
+  }
+
+  .social {
+    left: 50%;
+    transform: translate(-50%, 10px);
+
+    &.show {
+      transform: translate(-50%, 0);
     }
   }
 }

@@ -105,22 +105,24 @@ button:focus-visible {
 }
 
 .heading {
-  position: relative;
+  position: absolute;
+  right: 72px;
+  top: 28px;
   z-index: 2;
-  width: 100%;
   pointer-events: none;
-  transform: translateY(-10px);
+  transform: translateX(-10px);
   opacity: 0;
   transition: 0.5s $showEasing;
 
   &.show {
-    transform: translateY(0px);
+    transform: translateX(0px);
     opacity: 1;
   }
 
   &__description {
-    font-size: 16px;
-    max-width: 600px;
+    font-size: 14px;
+    max-width: 450px;
+    text-align: right;
 
     span {
       font-weight: bold;
@@ -255,6 +257,7 @@ button:focus-visible {
     &_phone {
       overflow: hidden;
       user-select: none;
+      background: white;
 
       &.active {
         overflow: visible;
@@ -350,7 +353,7 @@ button:focus-visible {
 
 .copySuccess {
   position: absolute;
-  bottom: -24px;
+  top: -52px;
   left: 50%;
   transform: translateX(-50%);
   background: $accent;
@@ -362,9 +365,11 @@ button:focus-visible {
   user-select: none;
   pointer-events: none;
 
+
+  transition: 0.15s ease-in;
+
   &.active {
     opacity: 1;
-    bottom: -36px;
   }
 }
 
@@ -389,7 +394,8 @@ button:focus-visible {
   opacity: 0;
   transition: 0.3s $showEasing;
   transform: translateY(30px);
-  width: calc(100vw - 48px);
+  width: 360px;
+  //width: calc(100vw - 48px);
 
   &.show {
     opacity: 1;
@@ -405,6 +411,8 @@ button:focus-visible {
   &__wrapper {
     position: fixed;
     display: flex;
+    align-items: flex-end;
+    padding-bottom: 10vh;
     justify-content: center;
     width: 100%;
     height: 100%;
@@ -485,14 +493,33 @@ button:focus-visible {
   }
 }
 
-.test {
+.social {
   position: fixed;
-  z-index: 33;
-  max-height: 100svh;
-  top: 0;
-  left: 0;
-  background: black;
-  color: white;
-  padding: 24px;
-  overflow-y: auto;
+  bottom: 28px;
+  left: 72px;
+  z-index: 4;
+  display: flex;
+  cursor: none;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: 0.3s $showEasing;
+
+  &.show {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+
+  &__item {
+    margin: 0 8px;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  svg {
+    height: 24px;
+    width: 24px;
+  }
 }
