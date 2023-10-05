@@ -388,6 +388,7 @@ button:focus-visible {
   opacity: 0;
   transition: 0.3s $showEasing;
   transform: translateY(30px);
+  width: calc(100vw - 48px);
 
   &.show {
     opacity: 1;
