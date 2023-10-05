@@ -11,7 +11,7 @@ import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
 import {hideOverlay} from "./into.js";
 import {debounce} from "./utils/debounce.js";
-import {showModalFn} from "./modal.js";
+import {hideModalFn, showModalFn} from "./modal.js";
 
 window.downloadFn = undefined;
 
@@ -244,7 +244,7 @@ function onClick() {
 					link.href = el.imgBigSize;
 					link.click()
 
-					modal.classList.remove('open')
+					hideModalFn();
 				};
 			}
 		})
