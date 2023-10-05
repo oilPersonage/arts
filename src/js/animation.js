@@ -5,13 +5,13 @@ import {WheelGesture} from '@use-gesture/vanilla';
 
 const cursor = document.querySelector('.cursor')
 const cursorDot = document.querySelector('.cursorDot')
-const modal = document.querySelector('.modal__wrapper')
 const test = document.querySelector('.test')
 
 import {data} from './data.js'
 import {getTouchDirection} from "./utils/getTouchDirection.js";
 import {hideOverlay} from "./into.js";
 import {debounce} from "./utils/debounce.js";
+import {showModalFn} from "./modal.js";
 
 window.downloadFn = undefined;
 
@@ -117,7 +117,7 @@ function init() {
 	initGesture()
 
 	// intro hide
-	// setTimeout(hideOverlay, 1200)
+	setTimeout(hideOverlay, 1200)
 	animate();
 
 	window.addEventListener("resize", resize);
@@ -235,7 +235,7 @@ function onClick() {
 	setTimeout(() => {
 		dataItems.forEach((el, index) => {
 			if (el.isHovered) {
-				modal.classList.add('open')
+				showModalFn()
 				window.downloadFn = () => {
 					const link = document.createElement('a')
 					link.download = `lirules_${index}`
@@ -245,7 +245,7 @@ function onClick() {
 					link.click()
 
 					modal.classList.remove('open')
-				}
+				};
 			}
 		})
 	}, 100)

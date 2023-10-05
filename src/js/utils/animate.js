@@ -1,6 +1,10 @@
-export function showAnimate(elem, className = 'active', ms) {
+export function animateItem(elem, className = 'active', ms, isRemove) {
 	let timer = setTimeout(() => {
-		elem.classList.add(className)
+		if (isRemove) {
+			elem.classList.remove(className)
+		} else {
+			elem.classList.add(className)
+		}
 		timer = null;
 	}, ms)
 }

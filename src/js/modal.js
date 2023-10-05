@@ -1,8 +1,11 @@
+import {animateItem} from "./utils/animate.js";
+
 const tabs = [...document.querySelectorAll('.tabs__item')]
 const content = [...document.querySelectorAll('.tabs__contentItem')]
 const copyItem = document.querySelector('.tabs__contentItem_phone');
 const copySuccess = document.querySelector('.copySuccess');
-const modal = document.querySelector('.modal__wrapper');
+const modalWrapper = document.querySelector('.modal__wrapper');
+const modal = document.querySelector('.modal');
 
 const downloadButton = document.querySelector('.download')
 const supportButton = document.querySelector('.support')
@@ -17,7 +20,21 @@ let timeout;
 let isOpenSupport = false;
 
 let isMobile = window.matchMedia('(max-width: 600px)').matches
-const heights = content.map(el => el.clientHeight)
+const heights = content.map(el => el.clientHeight);
+
+export function showModalFn() {
+	modalWrapper.classList.add('open')
+	animateItem(modal, 'show', 100)
+}
+
+export function hideModalFn() {
+	modal.classList.add('hide')
+	modalWrapper.classList.add('hide')
+	animateItem(modalWrapper, 'open', 300, 'remove')
+	animateItem(modalWrapper, 'hide', 300, 'remove')
+	animateItem(modal, 'hide', 300, 'remove')
+	animateItem(modal, 'show', 300, 'remove')
+}
 
 function setStyle() {
 	const currentContent = content[activeIndex]
@@ -101,4 +118,4 @@ initStyle()
 
 supportButton.addEventListener('click', supportClick)
 downloadButton.addEventListener('click', () => window.downloadFn())
-modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null)
+modalWrapper.addEventListener('click', ({target}) => target === modalWrapper ? hideModalFn() : null)
