@@ -31693,11 +31693,36 @@ function getTouchDirection(xDiff, yDiff) {
 	return {x: isX, y: isY}
 }
 
-document.querySelector('.overlay');
-document.querySelector('.headerLogo');
-document.querySelector('.overlay__logotype');
-document.querySelector('.heading');
-document.querySelector('.description');
+function animateItem(elem, className = 'active', ms, isRemove) {
+	setTimeout(() => {
+		if (isRemove) {
+			elem.classList.remove(className);
+		} else {
+			elem.classList.add(className);
+		}
+	}, ms);
+}
+
+const overlay = document.querySelector('.overlay');
+const headerLogo = document.querySelector('.headerLogo');
+const overlayLogo = document.querySelector('.overlay__logotype');
+const heading = document.querySelector('.heading');
+const downloadHelpText = document.querySelector('.description');
+
+const DEF_TIMEOUT = 300;
+
+function hideOverlay() {
+	overlay.classList.toggle('hideAnimation');
+	animateItem(overlayLogo, 'hide', 0);
+
+	setTimeout(() => {
+		overlay.classList.toggle('hide');
+	}, DEF_TIMEOUT);
+
+	animateItem(headerLogo, 'show', DEF_TIMEOUT + 200);
+	animateItem(heading, 'show', DEF_TIMEOUT + 600);
+	animateItem(downloadHelpText, 'show', DEF_TIMEOUT + 600);
+}
 
 function debounce(f, ms) {
 
@@ -31714,9 +31739,128 @@ function debounce(f, ms) {
 
 }
 
+const tabs = [...document.querySelectorAll('.tabs__item')];
+const content = [...document.querySelectorAll('.tabs__contentItem')];
+const copyItem = document.querySelector('.tabs__contentItem_phone');
+const copySuccess = document.querySelector('.copySuccess');
+const modalWrapper = document.querySelector('.modal__wrapper');
+const modal$1 = document.querySelector('.modal');
+
+const downloadButton = document.querySelector('.download');
+const supportButton = document.querySelector('.support');
+const supportContent = document.querySelector('.supportContent');
+
+const paddingV = 12;
+const paddingH = 24;
+
+let activeIndex = 0;
+let prevIndex = 0;
+let timeout;
+let isOpenSupport = false;
+
+let isMobile$1 = window.matchMedia('(max-width: 600px)').matches;
+const heights = content.map(el => el.clientHeight);
+
+function showModalFn() {
+	modalWrapper.classList.add('open');
+	animateItem(modal$1, 'show', 100);
+}
+
+function hideModalFn() {
+	modal$1.classList.add('hide');
+	modalWrapper.classList.add('hide');
+	animateItem(modalWrapper, 'open', 300, 'remove');
+	animateItem(modalWrapper, 'hide', 300, 'remove');
+	animateItem(modal$1, 'hide', 300, 'remove');
+	animateItem(modal$1, 'show', 300, 'remove');
+}
+
+function setStyle() {
+	const currentContent = content[activeIndex];
+	currentContent.classList.add('active');
+	currentContent.style.maxHeight = heights[activeIndex] + paddingV * 2 + 'px';
+	currentContent.style.padding = `${paddingV}px ${paddingH}px`;
+}
+
+function removeStyle() {
+	const currentContent = content[prevIndex];
+	currentContent.classList.remove('active');
+	tabs[prevIndex].classList.remove('active');
+
+	currentContent.style.maxHeight = '0px';
+	currentContent.style.padding = `0px ${paddingH}px`;
+}
+
+function initStyle() {
+	tabs.forEach(el => el.classList.remove('active'));
+	content.forEach(el => {
+		el.classList.remove('active');
+		el.style.maxHeight = '0px';
+		el.style.padding = `0px ${paddingH}px`;
+	});
+}
+
+function onClick$1({target}) {
+	supportContent.style.maxHeight = '500px';
+	const dataName = target.getAttribute('data-tab');
+	activeIndex = content.findIndex(el => el.getAttribute('data-tabContent') === dataName);
+	removeStyle();
+	setStyle();
+
+	target.classList.add('active');
+	prevIndex = activeIndex;
+}
+
+tabs.forEach(el => el.addEventListener('click', onClick$1));
+
+copyItem.addEventListener('click', function () {
+	const text = copyItem.textContent.trim();
+	navigator.clipboard.writeText(text)
+		.then(() => {
+			copySuccess.classList.add('active');
+			if (timeout) return;
+			timeout = setTimeout(() => {
+				timeout = null;
+				copySuccess.classList.remove('active');
+			}, 1000);
+			// Получилось!
+		})
+		.catch(err => {
+			console.log('Something went wrong', err);
+		});
+});
+
+function supportClick() {
+
+	supportButton.classList.toggle('open');
+	supportContent.classList.toggle('open');
+
+	if (!isOpenSupport) {
+		isOpenSupport = true;
+		supportContent.style.maxHeight = '156px';
+		if (isMobile$1) {
+			tabs[1].click();
+		} else {
+			tabs[0].click();
+		}
+		supportButton.innerHTML = 'Передумал';
+	} else {
+		isOpenSupport = false;
+		supportContent.style.maxHeight = '0px';
+		supportButton.innerHTML = 'Поддержать автора';
+	}
+}
+
+
+supportContent.style.maxHeight = '0px';
+initStyle();
+
+supportButton.addEventListener('click', supportClick);
+downloadButton.addEventListener('click', () => window.downloadFn());
+modalWrapper.addEventListener('click', ({target}) => target === modalWrapper ? hideModalFn() : null);
+
 const cursor = document.querySelector('.cursor');
 const cursorDot = document.querySelector('.cursorDot');
-const modal$1 = document.querySelector('.modal__wrapper');
 document.querySelector('.test');
 
 window.downloadFn = undefined;
@@ -31745,7 +31889,7 @@ let MAX_SCROLL_WIDTH = calculateMaxScrollWidth();
 
 let camera, scene, renderer, width, height, isHovered;
 const container = document.getElementById('container');
-let isMobile$1 = window.matchMedia('(max-width: 600px)').matches;
+let isMobile = window.matchMedia('(max-width: 600px)').matches;
 
 let sliderPosition = 0;
 let sliderSpeed = 0;
@@ -31793,7 +31937,7 @@ function init() {
 	container.appendChild(renderer.domElement);
 
 
-	if (isMobile$1) {
+	if (isMobile) {
 		HEIGHT_CARD = 0.65;
 		CAMERA_OFFSET = 0.1;
 		OFFSET_BETWEEN_IMG = 0.08;
@@ -31818,14 +31962,14 @@ function init() {
 	initGesture();
 
 	// intro hide
-	// setTimeout(hideOverlay, 1200)
+	setTimeout(hideOverlay, 1200);
 	animate();
 
 	window.addEventListener("resize", resize);
 	container.addEventListener('touchmove', touchMove, {passive: false});
 	container.addEventListener('touchstart', handleTouchStart);
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
-	container.querySelector('canvas').addEventListener("click", onClick$1);
+	container.querySelector('canvas').addEventListener("click", onClick);
 	// setDataGui()
 }
 
@@ -31927,13 +32071,13 @@ function resize() {
 	renderer.setSize(calcWidth, calcHeight);
 }
 
-function onClick$1() {
+function onClick() {
 
 	// костыль, что бы он hover in animate успел поставить el.isHovered
 	setTimeout(() => {
 		dataItems.forEach((el, index) => {
 			if (el.isHovered) {
-				modal$1.classList.add('open');
+				showModalFn();
 				window.downloadFn = () => {
 					const link = document.createElement('a');
 					link.download = `lirules_${index}`;
@@ -31942,7 +32086,7 @@ function onClick$1() {
 					link.href = el.imgBigSize;
 					link.click();
 
-					modal$1.classList.remove('open');
+					modal.classList.remove('open');
 				};
 			}
 		});
@@ -32047,109 +32191,4 @@ function setTouchSpeed(event) {
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
-
-const tabs = [...document.querySelectorAll('.tabs__item')];
-const content = [...document.querySelectorAll('.tabs__contentItem')];
-const copyItem = document.querySelector('.tabs__contentItem_phone');
-const copySuccess = document.querySelector('.copySuccess');
-const modal = document.querySelector('.modal__wrapper');
-
-const downloadButton = document.querySelector('.download');
-const supportButton = document.querySelector('.support');
-const supportContent = document.querySelector('.supportContent');
-
-const paddingV = 12;
-const paddingH = 24;
-
-let activeIndex = 0;
-let prevIndex = 0;
-let timeout;
-let isOpenSupport = false;
-
-let isMobile = window.matchMedia('(max-width: 600px)').matches;
-const heights = content.map(el => el.clientHeight);
-
-function setStyle() {
-	const currentContent = content[activeIndex];
-	currentContent.classList.add('active');
-	currentContent.style.maxHeight = heights[activeIndex] + paddingV * 2 + 'px';
-	currentContent.style.padding = `${paddingV}px ${paddingH}px`;
-}
-
-function removeStyle() {
-	const currentContent = content[prevIndex];
-	currentContent.classList.remove('active');
-	tabs[prevIndex].classList.remove('active');
-
-	currentContent.style.maxHeight = '0px';
-	currentContent.style.padding = `0px ${paddingH}px`;
-}
-
-function initStyle() {
-	tabs.forEach(el => el.classList.remove('active'));
-	content.forEach(el => {
-		el.classList.remove('active');
-		el.style.maxHeight = '0px';
-		el.style.padding = `0px ${paddingH}px`;
-	});
-}
-
-function onClick({target}) {
-	supportContent.style.maxHeight = '500px';
-	const dataName = target.getAttribute('data-tab');
-	activeIndex = content.findIndex(el => el.getAttribute('data-tabContent') === dataName);
-	removeStyle();
-	setStyle();
-
-	target.classList.add('active');
-	prevIndex = activeIndex;
-}
-
-tabs.forEach(el => el.addEventListener('click', onClick));
-
-copyItem.addEventListener('click', function () {
-	const text = copyItem.textContent.trim();
-	navigator.clipboard.writeText(text)
-		.then(() => {
-			copySuccess.classList.add('active');
-			if (timeout) return;
-			timeout = setTimeout(() => {
-				timeout = null;
-				copySuccess.classList.remove('active');
-			}, 1000);
-			// Получилось!
-		})
-		.catch(err => {
-			console.log('Something went wrong', err);
-		});
-});
-
-function supportClick() {
-
-	supportButton.classList.toggle('open');
-	supportContent.classList.toggle('open');
-
-	if (!isOpenSupport) {
-		isOpenSupport = true;
-		supportContent.style.maxHeight = '156px';
-		if (isMobile) {
-			tabs[1].click();
-		} else {
-			tabs[0].click();
-		}
-		supportButton.innerHTML = 'Передумал';
-	} else {
-		isOpenSupport = false;
-		supportContent.style.maxHeight = '0px';
-		supportButton.innerHTML = 'Поддержать автора';
-	}
-}
-
-
-supportContent.style.maxHeight = '0px';
-initStyle();
-
-supportButton.addEventListener('click', supportClick);
-downloadButton.addEventListener('click', () => window.downloadFn());
-modal.addEventListener('click', ({target}) => target === modal ? modal.classList.remove('open') : null);
-//# sourceMappingURL=index-8f73f14c.js.map
+//# sourceMappingURL=index-cf52347c.js.map
