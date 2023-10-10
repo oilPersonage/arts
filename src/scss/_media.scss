@@ -21,6 +21,8 @@
     top: 64px;
     padding: 12px 24px;
     width: calc(100% - 48px);
+    bottom: auto;
+    left: auto;
     right: 50%;
     transform: translate(50%, -10px);
 
@@ -58,6 +60,9 @@
   }
 
   .social {
+    right: auto;
+    top: auto;
+    bottom: 32px;
     left: 50%;
     transform: translate(-50%, 10px);
 
