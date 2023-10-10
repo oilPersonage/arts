@@ -106,8 +106,8 @@ button:focus-visible {
 
 .heading {
   position: absolute;
-  right: 72px;
-  top: 28px;
+  left: 72px;
+  bottom: 32px;
   z-index: 2;
   pointer-events: none;
   transform: translateX(-10px);
@@ -122,7 +122,7 @@ button:focus-visible {
   &__description {
     font-size: 14px;
     max-width: 450px;
-    text-align: right;
+    text-align: left;
 
     span {
       font-weight: bold;
@@ -499,8 +499,8 @@ button:focus-visible {
 
 .social {
   position: fixed;
-  bottom: 28px;
-  left: 72px;
+  top: 32px;
+  right: 72px;
   z-index: 4;
   display: flex;
   cursor: none;
@@ -517,8 +517,8 @@ button:focus-visible {
     display: flex;
     margin: 0 8px 0 0;
     opacity: 0.5;
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
 
     a, svg {
       width: 100%;
