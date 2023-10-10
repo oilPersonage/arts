@@ -627,15 +627,18 @@ button:focus-visible {
   transform: translateX(0px);
 }
 .social__item {
-  margin: 0 8px;
+  display: flex;
+  margin: 0 8px 0 0;
   opacity: 0.5;
+  width: 32px;
+  height: 32px;
+}
+.social__item a, .social__item svg {
+  width: 100%;
+  height: 100%;
 }
 .social__item:hover {
   opacity: 0.8;
-}
-.social svg {
-  height: 24px;
-  width: 24px;
 }
 /* Responsive layout - makes a two column-layout instead of four columns */
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
