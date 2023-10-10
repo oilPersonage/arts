@@ -629,16 +629,20 @@ button:focus-visible {
 .social__item {
   display: flex;
   margin: 0 8px 0 0;
-  opacity: 0.5;
-  width: 26px;
-  height: 26px;
+  opacity: 1;
+  width: 32px;
+  height: 32px;
 }
 .social__item a, .social__item svg {
   width: 100%;
   height: 100%;
+  cursor: none;
 }
-.social__item:hover {
-  opacity: 0.8;
+.social__item a path, .social__item svg path {
+  transition: 0.3s ease-in-out;
+}
+.social__item:hover svg path {
+  fill: #ffdd2d;
 }
 /* Responsive layout - makes a two column-layout instead of four columns */
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
@@ -659,6 +663,8 @@ button:focus-visible {
     top: 64px;
     padding: 12px 24px;
     width: calc(100% - 48px);
+    bottom: auto;
+    left: auto;
     right: 50%;
     transform: translate(50%, -10px);
   }
@@ -689,6 +695,9 @@ button:focus-visible {
     padding-bottom: 24px;
   }
   .social {
+    right: auto;
+    top: auto;
+    bottom: 32px;
     left: 50%;
     transform: translate(-50%, 10px);
   }
