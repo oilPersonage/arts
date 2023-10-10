@@ -34702,4 +34702,4 @@ function setTouchSpeed(event) {
 
 	sliderSpeed = isStopScrolling(dx) ? 0 : sliderSpeed + next;
 }
-//# sourceMappingURL=index-907698b1.js.map
+//# sourceMappingURL=index-4d527583.js.map
