@@ -514,16 +514,19 @@ button:focus-visible {
   }
 
   &__item {
-    margin: 0 8px;
+    display: flex;
+    margin: 0 8px 0 0;
     opacity: 0.5;
+    width: 32px;
+    height: 32px;
+
+    a, svg {
+      width: 100%;
+      height: 100%;
+    }
 
     &:hover {
       opacity: 0.8;
     }
-  }
-
-  svg {
-    height: 24px;
-    width: 24px;
   }
 }
