@@ -50,6 +50,10 @@
   .modal {
     transform: translateY(300px);
 
+    &__header {
+      display: none;
+    }
+
     &.hide {
       transform: translateY(300px);
     }
